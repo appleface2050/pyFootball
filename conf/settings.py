@@ -6,10 +6,10 @@ import json
 # mysql
 
 MYSQLDB = {
-	'host':'192.168.1.108',
-	#'host':'localhost',
+	#'host':'192.168.1.108',
+	'host':'localhost',
 	'port':3306,
-	'user':'appleface',
+	'user':'appleface2050',
 	'passwd':'root',
 	'db':'',
 	'sock':''

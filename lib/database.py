@@ -195,7 +195,6 @@ class Model(dict):
     def __init__(self, obj={}, db=None, ismaster=False, **kargs):
         self.ismaster = ismaster 
         self.db = db or self.dbserver(**kargs)
-        print self.db
         super(Model,self).__init__(obj)
         self._changed = set()
 
