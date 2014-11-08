@@ -19,7 +19,8 @@ class Match(object):
         self.home_team = Team('home','test')
         self.away_team = Team('away','test')
 
-    #def run(self):
+    def run(self):
+        pass
 
 
 
