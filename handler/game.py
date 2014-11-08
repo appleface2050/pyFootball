@@ -3,9 +3,9 @@
 
 from data.player import Player
 
-class Game(object):
+class Match(object):
     '''
-    Game
+    Match
     '''
     def __init__(self,mode=None):
         self.mode = mode
@@ -19,6 +19,7 @@ class Game(object):
         self.home_team = Team('home','test')
         self.away_team = Team('away','test')
 
+    #def run(self):
 
 
 
@@ -37,7 +38,8 @@ class Team(object):
 
         if mode == 'test':
             self.player_list = self.init_test_players()
-
+            self.init_test_squad()
+            self.strategy = self.init_test_strategy()
 
     def init_test_players(self):
         players = []
@@ -45,13 +47,19 @@ class Team(object):
             players.append(Player(mode='test'))
         return players
 
+    def init_test_strategy(self):
+        pass
 
+    def init_test_squad(self):
+        self.forward = self.player_list[0]
+        self.mid = self.player_list[1:2]
+        self.defence = self.player_list[3:4]
 
 
 
 if __name__ == '__main__':
-    a = Game(mode='test')
-
+    a = Match(mode='test')
+    a.run()
 
 
 

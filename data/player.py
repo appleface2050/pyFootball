@@ -56,7 +56,8 @@ class Player(object):
     def __str__(self):
         return 'name:'+(self.name)+'    offensive:'+str(self.offensive)+'   defence:'\
                +str(self.defence)+'    dribbling:'+str(self.dribbling)\
-               +'   short pass:'+str(self.short_pass)+' long pass:'+str(self.long_pass)+'   finish:'+str(self.finish)\
+               +'   short pass:'+str(self.short_pass)+' long pass:'+str(self.long_pass)\
+               +'   finish:'+str(self.finish)\
                +'   marking:'+str(self.marking)
 
 if __name__ == '__main__':
