@@ -11,16 +11,10 @@ from lib.database import Model
 
 
 
-class Club(Model):
+class ClubDB(Model):
     '''
     Club
     '''
-    # def __init__(self):
-    #     self.name = ''
-    #     self.money = ''
-    #     self.league = ''
-    #
-    #     self.squal = ''
     _db = 'Football'
     _pk = 'id'
     _table = 'club'
@@ -37,4 +31,5 @@ class Club(Model):
 
 
 if __name__ == '__main__':
-    Club.new().init_table()
+    #ClubDB.new().init_table()
+    pass

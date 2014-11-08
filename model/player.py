@@ -36,4 +36,5 @@ class PlayerDB(Model):
 
 
 if __name__ == '__main__':
-    PlayerDB.new().init_table()
+    #PlayerDB.new().init_table()
+    pass
