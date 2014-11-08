@@ -39,13 +39,13 @@ class Player(object):
         self.birthdate = datetime.datetime.strptime('1990-01-01','%Y-%m-%d').date()
         self.age = self.cal_player_age(self.birthdate)
 
-        self.offensive = 10;
-        self.defence = 10;
-        self.dribbling = 10;
-        self.short_pass = 10;
-        self.long_pass = 10;
-        self.finish = 10;
-        self.marking = 10;
+        self.offensive = 10
+        self.defence = 10
+        self.dribbling = 10
+        self.short_pass = 10
+        self.long_pass = 10
+        self.finish = 10
+        self.marking = 10
 
 
     def cal_player_age(self, birthdate):
