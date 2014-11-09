@@ -73,7 +73,7 @@ class Match(object):
         att_way = self.generate_attack_way(att_team.get_strategy(),att_ball_position,att_team)     #这里设置进攻策略
         result = self.compare(att_team,defence_team,att_way,att_ball_position)
 
-        self.finish_attack(att_way,result)            #根据结果设置状态
+#        self.finish_attack(att_way,result,att_team, defence_team)            #根据结果设置状态
 
     def finish_attack(self, att_way, result, att_team, defence_team):
         if att_way == 'shoot':
