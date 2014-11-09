@@ -144,15 +144,15 @@ class Match(object):
             raise MatcheException
 
         if position == 'back':
-            base = 25
+            base = 25.0
         elif position == 'mid':
-            base = 140
+            base = 140.0
         else:
-            base = 700
+            base = 700.0
         score = base * \
-                (defence_team.get_player_num(side='False',position=position)+1) * \
-                (shoot_player.get_offensive() * shoot_player.get_finish()) / (defence_team.get_avg_backfield_defence() * \
-                                                                              defence_team.get_avg_backfield_marking())
+                float(defence_team.get_player_num(side='False',position=position)+1) * \
+                float(shoot_player.get_offensive() * shoot_player.get_finish()) / float((defence_team.get_avg_backfield_defence() * \
+                                                                              defence_team.get_avg_backfield_marking()))
         return random_result(score)
 
     def cal_short_pass_res(self, att_team, defence_team, position):
@@ -164,11 +164,11 @@ class Match(object):
         '''
         assert position in ('back','mid')
         pass_player = att_team.random_player(side=True,position=position)
-        base = 800
+        base = 800.0
         score = base * \
-                (att_team.get_short_pass_player_num(True,position) / att_team.get_short_pass_player_num(False,position)) * \
-                (att_team.get_multy_field_avg(side=True,position=position,attr='offensive') * pass_player.get_short_pass()) / \
-                (defence_team.get_multy_field_avg(side=False,position=position,attr='defence') * \
+                (float(att_team.get_short_pass_player_num(True,position)) / float(att_team.get_short_pass_player_num(False,position))) * \
+                float(att_team.get_multy_field_avg(side=True,position=position,attr='offensive') * pass_player.get_short_pass()) / \
+                float(defence_team.get_multy_field_avg(side=False,position=position,attr='defence') * \
                  defence_team.get_multy_field_avg(side=False,position=position,attr='marking'))
         return random_result(score)
 
@@ -181,11 +181,11 @@ class Match(object):
         '''
         assert position in ('back')
         pass_player = att_team.random_player(side=True,position=position)
-        base = 500
+        base = 500.0
         score = base * \
-                (att_team.get_long_pass_player_num() / defence_team.get_long_pass_player_num()) * \
-                (att_team.get_multy_field_avg(side=True,position=position,attr='offensive') * pass_player.get_long_pass()) / \
-                (defence_team.get_multy_field_avg(side=False,position=position,attr='defence') * \
+                float(att_team.get_long_pass_player_num() / defence_team.get_long_pass_player_num()) * \
+                float(att_team.get_multy_field_avg(side=True,position=position,attr='offensive') * pass_player.get_long_pass()) / \
+                float(defence_team.get_multy_field_avg(side=False,position=position,attr='defence') * \
                  defence_team.get_multy_field_avg(side=False,position=position,attr='marking'))
         return random_result(score)
 
@@ -197,13 +197,13 @@ class Match(object):
         base = 800
         '''
         assert position in ('back','mid')
-        base = 800
+        base = 800.0
         score = base * \
-                (att_team.get_cross_player_num(side=True,position=position) / defence_team.get_cross_player_num(side=False,position=position)) * \
-                (att_team.get_single_field_avg(side=True,position=position,attr='offensive')) * \
-                (att_team.get_single_field_avg(side=True,position=position,attr='short_pass')) / \
-                (defence_team.get_single_field_avg(side=False,position=position,attr='defence')) *\
-                (defence_team.get_single_field_avg(side=False,position=position,attr='marking'))
+                (float(att_team.get_cross_player_num(side=True,position=position)) / float(defence_team.get_cross_player_num(side=False,position=position))) * \
+                float(att_team.get_single_field_avg(side=True,position=position,attr='offensive')) * \
+                float(att_team.get_single_field_avg(side=True,position=position,attr='short_pass')) / \
+                float((defence_team.get_single_field_avg(side=False,position=position,attr='defence')) *\
+                (defence_team.get_single_field_avg(side=False,position=position,attr='marking')))
         return random_result(score)
 
     def cal_dribbling_res(self, att_team, defence_team, position):
@@ -215,10 +215,10 @@ class Match(object):
         '''
         dribbling_player = att_team.random_player(side=True,position=position)
         defence_player = defence_team.random_player(side=False,position=position)
-        base = 500
+        base = 500.0
         score = base * \
-                (dribbling_player.get_offensive() * dribbling_player.get_dribbling()) / \
-                (defence_player.get_defence() * defence_player.get_marking())
+                float(dribbling_player.get_offensive() * dribbling_player.get_dribbling()) / \
+                float(defence_player.get_defence() * defence_player.get_marking())
         return random_result(score)
 
 if __name__ == '__main__':
