@@ -73,10 +73,109 @@ class Match(object):
         att_way = self.generate_attack_way(att_team.get_strategy(),att_ball_position,att_team)     #这里设置进攻策略
         result = self.compare(att_team,defence_team,att_way,att_ball_position)
 
-        #self.finish_attack()            #根据结果设置状态
+        self.finish_attack(att_way,result)            #根据结果设置状态
+
+    def finish_attack(self, att_way, result, att_team, defence_team):
+        if att_way == 'shoot':
+            if result:  #进球进攻方分数加一，转换球权，球位置设为中场
+                self.acc_one_score()
+                self.after_goal_reset()
+            else:       #未进球转换球权，球位置设为转换球权后的持球方后场
+                self.change_ball_side()
+                #self.set_ball_position('back')
+                self.set_ball_position_attack_back()
+        elif att_way == 'short_pass':
+            if result:  #传球成功位置进一格
+                self.set_acc_ball_position()
+            else:       #传球失败交换球权
+                self.change_ball_side()
+        elif att_way == 'long_pass':
+            if result:  #长传成功设置球位置为进攻方前场
+                self.set_ball_position_attack_front()
+            else:       #长传失败转换持球权，设置球位置为进攻方后场
+                self.change_ball_side()
+                self.set_ball_position_attack_back()
+        elif att_way == 'cross':
+            if result:  #cross成功位置进一格
+                self.set_acc_ball_position()
+            else:
+                self.change_ball_side()
+        elif att_way == 'dribbling':
+            if result:  #过人成功球位置进一格，当前阵容过人的人前进一格  如果当前是在前场，则减少一名防守球员
+                self.set_acc_ball_position()
+                self.set_player_move_in()
+            else:       #过人失败交换球权
+                self.change_ball_side()
 
 
+    def set_ball_position_attack_back(self):
+        '''
+        设置球位置为进攻方后场
+        '''
+        if self.ball_side:
+            self.ball_positoin = 1
+        else:
+            self.ball_positoin = 3
 
+    def set_ball_position_attack_front(self):
+        '''
+        设置球位置为进攻方前场
+        '''
+        if self.ball_side:
+            self.ball_positoin = 3
+        else:
+            self.ball_positoin = 1
+
+    def set_acc_ball_position(self):
+        '''
+        球的位置在当前位置的基础上前进一步
+        '''
+        if self.ball_side:
+            self.ball_positoin += 1
+        else:
+            self.ball_positoin -= 1
+        assert self.ball_positoin not in (1,2,3)
+
+
+    # def set_ball_position(self,position):
+    #     '''
+    #     根据当前球权方和想要设置的位置设置球的位置
+    #     '''
+    #
+    #     if self.ball_side:   #主队球权
+    #         if position == 'back':
+    #             self.ball_positoin = 1
+    #         elif position == 'mid':
+    #             self.ball_positoin = 2
+    #         elif position == 'front':
+    #             self.ball_positoin = 3
+    #     else:               #客队球权
+    #         if position == 'back':
+    #             self.ball_positoin = 3
+    #         elif position == 'mid':
+    #             self.ball_positoin = 2
+    #         elif position == 'front':
+    #             self.ball_positoin = 1
+
+
+    def after_goal_reset(self):
+        self.change_ball_side()
+        self.ball_positoin = 2
+
+    def acc_one_score(self):
+        if self.ball_side:
+            self.home_score += 1
+        else:
+            self.away_score += 1
+
+    def change_ball_side(self):
+        '''
+        转换球权
+        '''
+        if self.ball_side:
+            self.ball_side = False
+        else:
+            self.ball_side = True
 
     def generate_attack_way(self, att_team_strategy, att_ball_position, att_team):
         '''
@@ -100,6 +199,8 @@ class Match(object):
 
         #去除2个人不到的情况下不能使用cross的情况
         att_ways = self.delete_cross(att_ways,att_team,att_ball_position)
+        #去除过了最后一个人的情况
+
         return multy_random_one(att_ways)
 
     def compare(self, att_team, defence_team, att_way, position):
@@ -115,7 +216,7 @@ class Match(object):
             res = self.cal_cross_res(att_team,defence_team,position)
         elif att_way == 'dribbling':
             res = self.cal_dribbling_res(att_team,defence_team,position)
-
+        return res
     # def random_attack_way(self, att_field_position):
     #     count = len(att_field_position)
     #     return att_field_position[random.randint(0,count-1)]
