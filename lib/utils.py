@@ -7,6 +7,7 @@ import time
 import datetime
 import StringIO
 import gzip
+import random
 
 def strptime(dtime, format):
     """
@@ -114,6 +115,18 @@ def quick_sort(array,low,high):
         quick_sort(array,key_index+1,high)
 
 
+# def random_attack_way(self, att_field_position):
+#     count = len(att_field_position)
+#     return att_field_position[random.randint(0,count-1)]
+
+
+def multy_random_one(item_list):
+    count = len(item_list)
+    return item_list[random.randint(0,count-1)]
+
+def random_result(score):
+    return score<=random.randint(1,10000)
+
 if __name__ == '__main__':
     a = datetime.date(2007, 8, 21)
     b = datetime.date(2008, 3, 10)
@@ -123,6 +136,5 @@ if __name__ == '__main__':
     print array
     quick_sort(array,0,len(array)-1)
     print array
-    
     
     
