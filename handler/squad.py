@@ -129,6 +129,9 @@ class Squad(object):
         players = self.get_defence()
         return self.get_avg(players, 'marking')
 
+
+
+
     def get_short_pass_player_num(self, side, position):
         '''
         side: 进攻方 True  防守方 False
@@ -144,6 +147,14 @@ class Squad(object):
                 return self.get_player_num(False,'back')+self.get_player_num(False,'mid')
             elif position == 'mid':
                 return self.get_player_num(False,'mid')+self.get_player_num(False,'front')
+
+    def get_long_pass_player_num(self):
+        '''
+        无论进攻方防守方都取back和front
+        '''
+        return self.get_player_num(True,'back')+self.get_player_num(True,'front')
+
+
 
     # def get_short_pass_player(self, side ,position):
     #     '''
@@ -161,6 +172,22 @@ class Squad(object):
     #         elif position == 'mid':
     #             return self.get_player_num(False,'mid')+self.get_player_num(False,'front')
 
+    def get_single_field_avg(self, side, position, attr):
+        '''
+        position：进攻方球的位置
+        attr: 属性
+        '''
+        if side:
+            if position == 'back':
+                players = self.get_player_by_att_ball_position('back')
+            elif position == 'mid':
+                players = self.get_player_by_att_ball_position('mid')
+        else:
+            if position == 'back':
+                players = self.get_defence_player_by_att_ball_position('back')
+            elif position == 'mid':
+                players = self.get_defence_player_by_att_ball_position('mid')
+        return self.get_avg(players,attr)
 
     def get_multy_field_avg(self, side ,position, attr):
         '''
@@ -179,6 +206,18 @@ class Squad(object):
                 players = self.get_defence_player_by_att_ball_position('mid') + self.get_defence_player_by_att_ball_position('front')
         return self.get_avg(players,attr)
 
+    def get_cross_player_num(self, side, position):
+        # if side:
+        #     if position == 'back':
+        #         return self.get_player_num(True,'back')
+        #     elif position == 'mid':
+        #         return self.get_player_num(True,'mid')
+        # else:
+        #     if position == 'back':
+        #         return self.get_player_num(False,'back')
+        #     elif position == 'mid':
+        #         return self.get_player_num(False,'mid')
+        return self.get_player_num(side,position)
 
 
 if __name__ == '__main__':

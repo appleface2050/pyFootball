@@ -42,8 +42,6 @@ class Match(object):
             print "ERROR... att_ball_position"
             raise MatcheException
 
-
-
     def init_test_game(self):
         self.home_team = Squad(side='home',team_name='测试队1',mode='test')
         self.away_team = Squad(side='away',team_name='测试队2',mode='test')
@@ -72,21 +70,11 @@ class Match(object):
         根据球的位置判断进攻方式和进攻防守人员
         '''
         assert att_ball_position in ATT_BALL_POSITION       #进攻方位置
-        att_way = self.generate_attack_way(att_team.get_strategy(),att_ball_position,att_team)                     #这里设置进攻策略
+        att_way = self.generate_attack_way(att_team.get_strategy(),att_ball_position,att_team)     #这里设置进攻策略
         result = self.compare(att_team,defence_team,att_way,att_ball_position)
-
-
 
         #self.finish_attack()            #根据结果设置状态
 
-        # if position == 1:             #后场
-        #     att_way = self.generate_attack_way(att_team.get_strategy(),BACKFIELD_ATT,att_team.get_defence())                     #这里设置进攻策略
-        #     result = self.compare(att_team,defence_team,att_way,position)
-        # elif position == 2:            #中场
-        #     pass
-        # elif position == 3:            #前场
-        #     pass
-        #
 
 
 
@@ -163,7 +151,8 @@ class Match(object):
             base = 700
         score = base * \
                 (defence_team.get_player_num(side='False',position=position)+1) * \
-                (shoot_player.get_offensive() * shoot_player.get_finish()) / (defence_team.get_avg_backfield_defence() * defence_team.get_avg_backfield_marking())
+                (shoot_player.get_offensive() * shoot_player.get_finish()) / (defence_team.get_avg_backfield_defence() * \
+                                                                              defence_team.get_avg_backfield_marking())
         return random_result(score)
 
     def cal_short_pass_res(self, att_team, defence_team, position):
@@ -173,23 +162,32 @@ class Match(object):
         基础传球分数 * (进攻方人数/防守方人数) * （多个field进攻方平均进攻值*传球队员传球值/（多field防守方平均防守值*防守方人员平均mark值）
         base = 800
         '''
-        pass_player = att_team.random_player(side='True',position=position)
         assert position in ('back','mid')
+        pass_player = att_team.random_player(side=True,position=position)
         base = 800
         score = base * \
-                (att_team.get_short_pass_player_num(True,position)/att_team.get_short_pass_player_num(False,position)) * \
+                (att_team.get_short_pass_player_num(True,position) / att_team.get_short_pass_player_num(False,position)) * \
                 (att_team.get_multy_field_avg(side=True,position=position,attr='offensive') * pass_player.get_short_pass()) / \
-                (defence_team.get_multy_field_avg(side=False,position=position,attr='defence') * defence_team.get_multy_field_avg(side=False,position=position,attr='marking'))
+                (defence_team.get_multy_field_avg(side=False,position=position,attr='defence') * \
+                 defence_team.get_multy_field_avg(side=False,position=position,attr='marking'))
         return random_result(score)
 
     def cal_long_pass_res(self, att_team, defence_team, position):
         '''
         计算长传结果公式：
         参与方：后场和前场
-        基础长传分数 * （进攻方人数/防守方人数） * (进攻方平均进攻值*传球队员长传值/（防守方人员防守平均值*防守方后场平均mark值）)
+        基础长传分数 * （进攻方人数/防守方人数） * (多个field进攻方平均进攻值*传球队员长传值/（多field防守方平均防守值*防守方后场平均mark值）)
         base = 500
         '''
         assert position in ('back')
+        pass_player = att_team.random_player(side=True,position=position)
+        base = 500
+        score = base * \
+                (att_team.get_long_pass_player_num() / defence_team.get_long_pass_player_num()) * \
+                (att_team.get_multy_field_avg(side=True,position=position,attr='offensive') * pass_player.get_long_pass()) / \
+                (defence_team.get_multy_field_avg(side=False,position=position,attr='defence') * \
+                 defence_team.get_multy_field_avg(side=False,position=position,attr='marking'))
+        return random_result(score)
 
     def cal_cross_res(self, att_team, defence_team, position):
         '''
@@ -198,19 +196,30 @@ class Match(object):
         基础cross分数 * (进攻方人数/防守方人数) * （进攻方平均进攻值*进攻方平均传球值）/ （（防守方人员防守平均值*防守方后场平均mark值））
         base = 800
         '''
-
         assert position in ('back','mid')
-
-
+        base = 800
+        score = base * \
+                (att_team.get_cross_player_num(side=True,position=position) / defence_team.get_cross_player_num(side=False,position=position)) * \
+                (att_team.get_single_field_avg(side=True,position=position,attr='offensive')) * \
+                (att_team.get_single_field_avg(side=True,position=position,attr='short_pass')) / \
+                (defence_team.get_single_field_avg(side=False,position=position,attr='defence')) *\
+                (defence_team.get_single_field_avg(side=False,position=position,attr='marking'))
+        return random_result(score)
 
     def cal_dribbling_res(self, att_team, defence_team, position):
         '''
         计算过人的结果:
         参与方：当前field
-        基础dribbling分数 * （进攻执行人进攻值*执行人dribbling）/ （防守执行人防守值*放手执行人marking）
+        基础dribbling分数 * （进攻执行人进攻值*执行人dribbling）/ （防守执行人防守值*防守执行人marking）
         base = 500
         '''
-
+        dribbling_player = att_team.random_player(side=True,position=position)
+        defence_player = defence_team.random_player(side=False,position=position)
+        base = 500
+        score = base * \
+                (dribbling_player.get_offensive() * dribbling_player.get_dribbling()) / \
+                (defence_player.get_defence() * defence_player.get_marking())
+        return random_result(score)
 
 if __name__ == '__main__':
     a = Match(mode='test')
