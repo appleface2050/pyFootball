@@ -49,6 +49,9 @@ class Squad(object):
     def get_defence(self):
         return self.defence
 
+    def get_player_list(self):
+        return self.player_list
+
     def __str__(self):
         return self.team_name
 
@@ -219,6 +222,17 @@ class Squad(object):
         #         return self.get_player_num(False,'mid')
         return self.get_player_num(side,position)
 
+    def player_move_in(self, player):
+        #检查player是否在当前squad中
+        assert player in self.get_player_list()
+        if player in self.get_forward():  #球员在进攻方的最前场，报错
+            raise Exception
+        elif player in self.get_mid():
+            self.forward.append(player)
+            self.mid.remove(player)
+        elif player in self.get_defence():
+            self.mid.append(player)
+            self.forward.remove(player)
 
 if __name__ == '__main__':
     a = Squad(side='True',team_name='qq',mode='test')

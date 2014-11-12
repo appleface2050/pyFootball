@@ -46,6 +46,7 @@ class Match(object):
         self.home_team = Squad(side='home',team_name='测试队1',mode='test')
         self.away_team = Squad(side='away',team_name='测试队2',mode='test')
 
+
     def run(self):
         self.ball_positoin = 2           #主队中场开始进攻
         for m_time in xrange(1,91):
@@ -101,12 +102,30 @@ class Match(object):
             else:
                 self.change_ball_side()
         elif att_way == 'dribbling':
-            if result:  #过人成功球位置进一格，当前阵容过人的人前进一格  如果当前是在前场，则减少一名防守球员
-                self.set_acc_ball_position()
-                self.set_player_move_in()
+            res,dribbling_player,defence_player = result[0], result[1], result[2]
+            if res:  #过人成功球位置进一格，如果不在前场，当前阵容过人的人前进一格  如果当前是在前场，则减少一名防守球员
+                if (self.ball_side and self.ball_positoin != 3) or (self.ball_side == 0 and self.ball_positoin != 1): #主队进攻且球位置不在攻方前场,或客队进攻且球位置不在进攻方前场
+                    self.set_player_move_in(dribbling_player)
+                else:           #如果是在前场防守方减少一名队员
+                    self.set_player_disappear(defence_player)
+
+                self.set_acc_ball_position() #最后球位置进一格
             else:       #过人失败交换球权
                 self.change_ball_side()
 
+    def set_player_move_in(self, player):
+        #检查player是否是在当前的进攻方，如果不是报错
+        assert player in self.current_attack_players()
+        if self.ball_side:
+            self.home_team.player_move_in(player)
+        else:
+            self.away_team.player_move_in(player)
+
+    def current_attack_players(self):
+        if self.ball_side:
+            return self.home_team.get_player_list()
+        else:
+            return self.away_team.get_player_list()
 
     def set_ball_position_attack_back(self):
         '''
@@ -320,7 +339,8 @@ class Match(object):
         score = base * \
                 float(dribbling_player.get_offensive() * dribbling_player.get_dribbling()) / \
                 float(defence_player.get_defence() * defence_player.get_marking())
-        return random_result(score)
+        res = random_result(score)
+        return [res,dribbling_player,defence_player]
 
 if __name__ == '__main__':
     a = Match(mode='test')
