@@ -11,7 +11,7 @@ class Player(object):
     '''
     player in club
     '''
-    def __init__(self,mode=None):
+    def __init__(self,name):
         self.name = ''
         self.birthdate = ''
         self.age = ''
@@ -26,16 +26,15 @@ class Player(object):
         self.finish = 0;
         self.marking = 0;
 
-        if mode == 'test':
-            self.init_test_player()
+        self.init_test_player(name)
 
 
         #save
         #self.stamina = 0;
 
-    def init_test_player(self):
+    def init_test_player(self, name):
 
-        self.name = 'test'
+        self.name = name
         self.birthdate = datetime.datetime.strptime('1990-01-01','%Y-%m-%d').date()
         self.age = self.cal_player_age(self.birthdate)
 
@@ -115,6 +114,6 @@ class Player(object):
 
 
 if __name__ == '__main__':
-    a = Player(mode='test')
+    a = Player(name='test3')
     print a
 

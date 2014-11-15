@@ -3,6 +3,7 @@
 
 from data.player import Player
 from lib.utils import multy_random_one
+import copy
 
 class Squad(object):
     '''
@@ -18,15 +19,33 @@ class Squad(object):
         self.mid = []
         self.defence = []
 
+        self.inital_forward = []
+        self.inital_mid = []
+        self.inital_defence = []
+
+        self.prepare_game()
+
         if mode == 'test':
             self.player_list = self.init_test_players()
             self.init_test_squad()
             self.strategy = self.init_test_strategy()
 
+        self.prepare_game()
+
+    def prepare_game(self):
+        self.inital_forward = copy.deepcopy(self.forward)
+        self.inital_mid = copy.deepcopy(self.mid)
+        self.inital_defence = copy.deepcopy(self.defence)
+
+    def reset_squad(self):
+        self.forward = self.inital_squad['forward']
+        self.mid = self.inital_squad['mid']
+        self.defence = self.inital_squad['defence']
+
     def init_test_players(self):
         players = []
-        for i in range(0,5):
-            players.append(Player(mode='test'))
+        for i in xrange(1,6):
+            players.append(Player(name=('test'+str(i))))
         return players
 
     def init_test_strategy(self):
@@ -51,6 +70,9 @@ class Squad(object):
 
     def get_player_list(self):
         return self.player_list
+
+    def get_player_name_list(self):
+        return [player.get_name() for player in self.player_list]
 
     def __str__(self):
         return self.team_name
@@ -95,6 +117,15 @@ class Squad(object):
             else:
                 return len(self.get_forward())
 
+    def get_forward_name(self):
+        return [p.name for p in self.get_forward()]
+
+    def get_mid_name(self):
+        return [p.name for p in self.get_mid()]
+
+    def get_defence_name(self):
+        return [p.name for p in self.get_defence()]
+
     def random_player(self, side, position):
         '''
         side: 进攻方 True  防守方 False
@@ -122,18 +153,18 @@ class Squad(object):
         avg = sum(values) / len(values)
         return avg
 
-
     def get_avg_backfield_defence(self):
         players = self.get_defence()
         return self.get_avg(players, 'defence')
-
 
     def get_avg_backfield_marking(self):
         players = self.get_defence()
         return self.get_avg(players, 'marking')
 
-
-
+    def reset_squad(self):
+        self.forward = copy.deepcopy(self.inital_forward)
+        self.mid = copy.deepcopy(self.inital_mid)
+        self.defence = copy.deepcopy(self.inital_defence)
 
     def get_short_pass_player_num(self, side, position):
         '''
@@ -157,7 +188,8 @@ class Squad(object):
         '''
         return self.get_player_num(True,'back')+self.get_player_num(True,'front')
 
-
+    def get_defence_player_number(self):
+        return len(self.defence)
 
     # def get_short_pass_player(self, side ,position):
     #     '''
@@ -224,22 +256,62 @@ class Squad(object):
 
     def player_move_in(self, player):
         #检查player是否在当前squad中
-        assert player in self.get_player_list()
-        if player in self.get_forward():  #球员在进攻方的最前场，报错
+        assert player.name in [p.get_name() for p in self.get_player_list()]
+        if player.get_name() in self.get_forward_name():  #球员在进攻方的最前场，报错
             raise Exception
-        elif player in self.get_mid():
+        elif player.get_name() in self.get_mid_name():
             self.forward.append(player)
-            self.mid.remove(player)
-        elif player in self.get_defence():
+            self.mid = self.remove_by_player_name(self.mid,player.get_name())
+        elif player.get_name() in self.get_defence_name():
             self.mid.append(player)
-            self.forward.remove(player)
+            self.defence = self.remove_by_player_name(self.defence,player.get_name())
+
+    def player_disappear(self, player_name):
+        #检查player是否在当前squad的backfield中
+        assert  player_name in [player.get_name() for player in self.get_defence()]
+        self.defence = self.remove_by_player_name(self.defence,player_name)
+        self.player_list = self.remove_by_player_name(self.player_list,player_name)
+
+    def print_inital_squad(self):
+        print self.inital_defence
+        print self.inital_mid
+        print self.inital_forward
+
+    def print_current_squad(self):
+        print self.get_defence()
+        print self.get_mid()
+        print self.get_forward()
+
+    def remove_by_player_name(self, player_list, player_name):
+        assert player_name in [p.get_name() for p in player_list]
+        res = []
+        for i in player_list:
+            if i.get_name() == player_name:
+                continue
+            else:
+                res.append(i)
+        return res
+
 
 if __name__ == '__main__':
     a = Squad(side='True',team_name='qq',mode='test')
+    print 'start'
+    a.print_current_squad()
+    print 'change'
+    move_in_player = a.get_defence()[0]
+    a.player_move_in(move_in_player)
+    a.print_current_squad()
 
 
-
-
+    # print a.get_defence()
+    # print a.get_mid()
+    # print a.get_forward()
+    # a.print_inital_squad()
+    # a.reset_squad()
+    # print 'reset'
+    # print a.get_defence()
+    # print a.get_mid()
+    # print a.get_forward()
 
 
 

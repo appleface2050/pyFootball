@@ -71,10 +71,10 @@ class Match(object):
         根据球的位置判断进攻方式和进攻防守人员
         '''
         assert att_ball_position in ATT_BALL_POSITION       #进攻方位置
-        att_way = self.generate_attack_way(att_team.get_strategy(),att_ball_position,att_team)     #这里设置进攻策略
+        att_way = self.generate_attack_way(att_team.get_strategy(),att_ball_position,att_team,defence_team)     #这里设置进攻策略
         result = self.compare(att_team,defence_team,att_way,att_ball_position)
 
-#        self.finish_attack(att_way,result,att_team, defence_team)            #根据结果设置状态
+        self.finish_attack(att_way,result,att_team, defence_team)            #根据结果设置状态
 
     def finish_attack(self, att_way, result, att_team, defence_team):
         if att_way == 'shoot':
@@ -85,47 +85,74 @@ class Match(object):
                 self.change_ball_side()
                 #self.set_ball_position('back')
                 self.set_ball_position_attack_back()
+                self.reset_both_side_squad()
+
         elif att_way == 'short_pass':
             if result:  #传球成功位置进一格
                 self.set_acc_ball_position()
             else:       #传球失败交换球权
                 self.change_ball_side()
+
         elif att_way == 'long_pass':
             if result:  #长传成功设置球位置为进攻方前场
                 self.set_ball_position_attack_front()
             else:       #长传失败转换持球权，设置球位置为进攻方后场
                 self.change_ball_side()
                 self.set_ball_position_attack_back()
+                self.reset_both_side_squad()
+
         elif att_way == 'cross':
             if result:  #cross成功位置进一格
                 self.set_acc_ball_position()
             else:
                 self.change_ball_side()
+
         elif att_way == 'dribbling':
             res,dribbling_player,defence_player = result[0], result[1], result[2]
             if res:  #过人成功球位置进一格，如果不在前场，当前阵容过人的人前进一格  如果当前是在前场，则减少一名防守球员
                 if (self.ball_side and self.ball_positoin != 3) or (self.ball_side == 0 and self.ball_positoin != 1): #主队进攻且球位置不在攻方前场,或客队进攻且球位置不在进攻方前场
                     self.set_player_move_in(dribbling_player)
+                    self.set_acc_ball_position() #最后球位置进一格
                 else:           #如果是在前场防守方减少一名队员
                     self.set_player_disappear(defence_player)
-
-                self.set_acc_ball_position() #最后球位置进一格
             else:       #过人失败交换球权
                 self.change_ball_side()
 
+    def reset_both_side_squad(self):
+        '''
+        用于取消过人成功后的squad变动
+        reset条件：长传失败，射门失败
+        '''
+        self.home_team.reset_squad()
+        self.away_team.reset_squad()
+
     def set_player_move_in(self, player):
         #检查player是否是在当前的进攻方，如果不是报错
-        assert player in self.current_attack_players()
+        assert player.get_name() in self.current_attack_team_players_name()
         if self.ball_side:
             self.home_team.player_move_in(player)
         else:
             self.away_team.player_move_in(player)
 
-    def current_attack_players(self):
+    def set_player_disappear(self, player):
+        #检查player是否在当前防守方的后场，如果不是报错
+        assert player in self.current_defence_team_backfield_players_name()
         if self.ball_side:
-            return self.home_team.get_player_list()
+            self.away_team.player_disappear(player.get_name())
         else:
-            return self.away_team.get_player_list()
+            self.home_team.player_disappear(player.get_name())
+
+    def current_attack_team_players_name(self):
+        if self.ball_side:
+            return [player.get_name() for player in self.home_team.get_player_name_list()]
+        else:
+            return [player.get_name() for player in self.away_team.get_player_name_list()]
+
+    def current_defence_team_backfield_players_name(self):
+        if self.ball_side:
+            return [player.get_name() for player in self.away_team.get_defence()]
+        else:
+            return [player.get_name() for player in self.home_team.get_defence()]
 
     def set_ball_position_attack_back(self):
         '''
@@ -196,7 +223,7 @@ class Match(object):
         else:
             self.ball_side = True
 
-    def generate_attack_way(self, att_team_strategy, att_ball_position, att_team):
+    def generate_attack_way(self, att_team_strategy, att_ball_position, att_team, defence_team):
         '''
         BACKFIELD_ATT = ['shoot','short_pass','long_pass','cross','dribbling']
         MIDFIELD_ATT = ['shoot','short_pass','cross','dribbling']
@@ -211,7 +238,10 @@ class Match(object):
             elif att_ball_position == 'mid':
                 att_ways = MIDFIELD_ATT
             else:
-                att_ways = FRONTFIELD_ATT
+                if defence_team.get_defence_player_number() == 0:      #过完最后一个人的情况，防守方后卫人数为0
+                    att_ways = ['shoot']
+                else:
+                    att_ways = FRONTFIELD_ATT
         else:
             #not ready yet
             pass
@@ -223,7 +253,7 @@ class Match(object):
         return multy_random_one(att_ways)
 
     def compare(self, att_team, defence_team, att_way, position):
-        print att_team,defence_team,att_way,position
+        print " 进攻方:",att_team," 防守方:",defence_team,' 进攻方式:',att_way,' ball position:',position
         print "comparing..."
         if att_way == 'shoot':
             res = self.cal_shoot_res(att_team,defence_team,position)
