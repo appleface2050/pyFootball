@@ -50,8 +50,18 @@ class Match(object):
     def run(self):
         self.ball_positoin = 2           #主队中场开始进攻
         for m_time in xrange(1,91):
+            if not self.data_check():
+                raise Exception
             print 'time: ',m_time
             self.match_begin(self.home_team,self.away_team,self.ball_side)
+
+    def data_check(self):
+        '''
+        验证数据是否正确
+        '''
+
+
+
 
 
     def match_begin(self, home_team, away_team, ball_side):
@@ -73,7 +83,7 @@ class Match(object):
         assert att_ball_position in ATT_BALL_POSITION       #进攻方位置
         att_way = self.generate_attack_way(att_team.get_strategy(),att_ball_position,att_team,defence_team)     #这里设置进攻策略
         result = self.compare(att_team,defence_team,att_way,att_ball_position)
-
+        print "result:",result
         self.finish_attack(att_way,result,att_team, defence_team)            #根据结果设置状态
 
     def finish_attack(self, att_way, result, att_team, defence_team):
@@ -81,11 +91,12 @@ class Match(object):
             if result:  #进球进攻方分数加一，转换球权，球位置设为中场
                 self.acc_one_score()
                 self.after_goal_reset()
+
             else:       #未进球转换球权，球位置设为转换球权后的持球方后场
                 self.change_ball_side()
                 #self.set_ball_position('back')
                 self.set_ball_position_attack_back()
-                self.reset_both_side_squad()
+            self.reset_both_side_squad()
 
         elif att_way == 'short_pass':
             if result:  #传球成功位置进一格
@@ -136,7 +147,7 @@ class Match(object):
 
     def set_player_disappear(self, player):
         #检查player是否在当前防守方的后场，如果不是报错
-        assert player in self.current_defence_team_backfield_players_name()
+        assert player.get_name() in self.current_defence_team_backfield_players_name()
         if self.ball_side:
             self.away_team.player_disappear(player.get_name())
         else:
@@ -144,9 +155,9 @@ class Match(object):
 
     def current_attack_team_players_name(self):
         if self.ball_side:
-            return [player.get_name() for player in self.home_team.get_player_name_list()]
+            return self.home_team.get_player_name_list()
         else:
-            return [player.get_name() for player in self.away_team.get_player_name_list()]
+            return self.away_team.get_player_name_list()
 
     def current_defence_team_backfield_players_name(self):
         if self.ball_side:
@@ -180,7 +191,7 @@ class Match(object):
             self.ball_positoin += 1
         else:
             self.ball_positoin -= 1
-        assert self.ball_positoin not in (1,2,3)
+        assert self.ball_positoin in (1,2,3)
 
 
     # def set_ball_position(self,position):
@@ -253,7 +264,11 @@ class Match(object):
         return multy_random_one(att_ways)
 
     def compare(self, att_team, defence_team, att_way, position):
-        print " 进攻方:",att_team," 防守方:",defence_team,' 进攻方式:',att_way,' ball position:',position
+        print " 进攻方:",
+        att_team.print_desc()
+        print " 防守方:",
+        defence_team.print_desc()
+        print '进攻方式:',att_way,' ball position:',position
         print "comparing..."
         if att_way == 'shoot':
             res = self.cal_shoot_res(att_team,defence_team,position)
@@ -282,7 +297,7 @@ class Match(object):
     def cal_shoot_res(self, att_team, defence_team, position):
         '''
         射门结果计算公式：
-        基础分数*/(防守线人数+1) * （射门人进攻值*射门人射门值） / （防守方后场人员防守平均值*防守方后场人员平均mark值）
+        基础分数/(防守线人数+1) * （射门人进攻值*射门人射门值） / （防守方后场人员防守平均值*防守方后场人员平均mark值）
         前场base = 700
         中场base = 140
         后场base = 25
@@ -299,8 +314,8 @@ class Match(object):
             base = 140.0
         else:
             base = 700.0
-        score = base * \
-                float(defence_team.get_player_num(side='False',position=position)+1) * \
+        score = base / \
+                float(defence_team.get_player_num(side=False,position=position)+1) * \
                 float(shoot_player.get_offensive() * shoot_player.get_finish()) / float((defence_team.get_avg_backfield_defence() * \
                                                                               defence_team.get_avg_backfield_marking()))
         return random_result(score)
