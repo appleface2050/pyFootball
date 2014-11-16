@@ -172,11 +172,6 @@ class Squad(object):
         players = self.get_defence()
         return self.get_avg(players, 'marking')
 
-    def reset_squad(self):
-        self.forward = copy.deepcopy(self.inital_forward)
-        self.mid = copy.deepcopy(self.inital_mid)
-        self.defence = copy.deepcopy(self.inital_defence)
-
     def get_short_pass_player_num(self, side, position):
         '''
         side: 进攻方 True  防守方 False

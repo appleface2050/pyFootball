@@ -50,8 +50,7 @@ class Match(object):
     def run(self):
         self.ball_positoin = 2           #主队中场开始进攻
         for m_time in xrange(1,91):
-            if not self.data_check():
-                raise Exception
+            self.data_check()
             print 'time: ',m_time
             self.match_begin(self.home_team,self.away_team,self.ball_side)
 
@@ -59,10 +58,22 @@ class Match(object):
         '''
         验证数据是否正确
         '''
+        self.data_check_players(self.home_team)
+        self.data_check_players(self.away_team)
 
+    def data_check_players(self, team):
+        all = team.get_player_name_list()
+        a = team.get_forward_name()
+        b = team.get_mid_name()
+        c = team.get_defence_name()
 
-
-
+        for item in [a,b,c]:
+            for i in item:
+                if i not in all:
+                    print "data check exception "
+                    print i
+                    print all
+                    raise Exception
 
     def match_begin(self, home_team, away_team, ball_side):
         '''
