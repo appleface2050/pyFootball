@@ -5,6 +5,7 @@ from handler.squad import Squad
 from conf.game_conf import BACKFIELD_ATT,MIDFIELD_ATT,FRONTFIELD_ATT,ATT_BALL_POSITION
 from data.exceptions import MatcheException
 from lib.utils import multy_random_one,random_result
+from handler.game_result import GameResult
 
 class Match(object):
     '''
@@ -24,6 +25,8 @@ class Match(object):
 
         if mode == 'test':
             self.init_test_game()
+
+        self.game_result = GameResult(home_team=self.home_team,away_team=self.away_team)
 
     def att_ball_position(self):
         if self.ball_positoin == 1:

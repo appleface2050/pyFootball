@@ -65,6 +65,12 @@ class Squad(object):
         self.mid = self.player_list[1:3]
         self.defence = self.player_list[3:5]
 
+    def get_team_name(self):
+        return self.team_name
+
+    def get_side(self):
+        return self.side
+
     def get_strategy(self):
         return self.strategy
 
@@ -289,7 +295,7 @@ class Squad(object):
 
 
 if __name__ == '__main__':
-    a = Squad(side='True',team_name='qq',mode='test')
+    a = Squad(side=True,team_name='qq',mode='test')
     print 'start'
     a.print_current_squad()
     print 'change'
