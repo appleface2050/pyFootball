@@ -2,9 +2,6 @@
 # -*- coding: utf-8 -*-
 
 from handler.squad import Squad
-from conf.game_conf import BACKFIELD_ATT,MIDFIELD_ATT,FRONTFIELD_ATT,ATT_BALL_POSITION
-from data.exceptions import MatcheException
-from lib.utils import multy_random_one,random_result
 
 class GameResult(object):
     '''
@@ -20,18 +17,26 @@ class GameResult(object):
     #     '''
     #     def _assert_side_player_name_deco(self,side,home_team_res,away_team_res)
 
-
-
-    def assert_side_deco(func):
+    def check_side_name_result_deco(func):
         '''
-        检查side值是否正确
+        Decorator 检查side name result
+        '''
+        def _check_side_name_result_deco(self,side,name,result):
+            assert result in (True,False)
+            assert side in ('home','away')
+            return func(self,side,name,result)
+        return _check_side_name_result_deco
+
+    def check_side_deco(func):
+        '''
+        Decorator 检查side值是否正确
         '''
         def _assert_side_deco(self,side):
             assert side in ('home','away')
             return func(self,side)
         return _assert_side_deco
 
-    @assert_side_deco
+    @check_side_deco
     def acc_score(self, side):
         '''
         side: home, away
@@ -42,8 +47,8 @@ class GameResult(object):
         else:
             self.away_team_res.acc_team_score()
 
-    @assert_side_deco
-    def acc_player_shoot(self,side,name,result):
+    @check_side_name_result_deco
+    def acc_player_shoot(self, side, name, result):
         '''
         side: home, away
         name:
@@ -53,6 +58,55 @@ class GameResult(object):
             self.home_team_res.acc_player_shoot_times(name,result)
         else:
             self.away_team_res.acc_player_shoot_times(name,result)
+
+    @check_side_name_result_deco
+    def acc_player_short_pass(self, side, name, result):
+        '''
+        side: home, away
+        name:
+        result: True, False
+        '''
+        if side == 'home':
+            self.home_team_res.acc_player_short_pass_times(name,result)
+        else:
+            self.away_team_res.acc_player_short_pass_times(name,result)
+
+    @check_side_name_result_deco
+    def acc_player_long_pass(self, side, name, result):
+        '''
+        side: home, away
+        name:
+        result: True, False
+        '''
+        if side == 'home':
+            self.home_team_res.acc_player_long_pass_times(name,result)
+        else:
+            self.away_team_res.acc_player_long_pass_times(name,result)
+
+    @check_side_name_result_deco
+    def acc_player_cross(self, side, name, result):
+        '''
+        side: home, away
+        name:
+        result: True, False
+        '''
+        if side == 'home':
+            self.home_team_res.acc_player_cross_times(name,result)
+        else:
+            self.away_team_res.acc_player_cross_times(name,result)
+
+    @check_side_name_result_deco
+    def acc_player_dribbling(self, side, name, result):
+        '''
+        side: home, away
+        name:
+        result: True, False
+        '''
+        if side == 'home':
+            self.home_team_res.acc_player_dribbling_times(name,result)
+        else:
+            self.away_team_res.acc_player_dribbling_times(name,result)
+
 
 
 class TeamResult(object):
@@ -74,23 +128,94 @@ class TeamResult(object):
 
     def check_name_result_deco(func):
         '''
-        检查side值是否正确
+        检查side值是否正确,name是否存在self队中
         '''
         def _assert_name_result_deco(self,name,result):
             assert result in (True,False)
-
+            if not self.name_exist(name):
+                print name," not in this team"
+                raise Exception
             return func(self,name,result)
         return _assert_name_result_deco
 
+    def get_name_list(self):
+        return [player.get_name() for player in [self.player1,self.player2,self.player3,self.player4,self.player5]]
+
+    def name_exist(self, name):
+        name_list = self.get_name_list()
+        return name in name_list
 
     def acc_team_score(self):
         self.score += 1
 
-    def acc_player_shoot_times(self, name,result):
+    def get_player_by_name(self, name):
+        for player in [self.player1,self.player2,self.player3,self.player4,self.player5]:
+            if player.get_name() == name:
+                return player
+        return False
+
+    @check_name_result_deco
+    def acc_player_shoot_times(self, name, result):
         '''
         name: player name
         resutl: True False
         '''
+        p = self.get_player_by_name(name)
+        if not p:
+            print "ERROR,can not get player:",name
+            raise Exception
+        if result:
+            p.acc_shoot_success()
+        else:
+            p.acc_shoot_fail()
+
+    @check_name_result_deco
+    def acc_player_short_pass_times(self , name, result):
+        '''
+        name: player name
+        resutl: True False
+        '''
+        p = self.get_player_by_name(name)
+        if not p:
+            print "ERROR,can not get player:",name
+            raise Exception
+        if result:
+            p.acc_short_pass_success()
+        else:
+            p.acc_short_pass_fail()
+
+    @check_name_result_deco
+    def acc_player_long_pass_times(self, name, result):
+        p = self.get_player_by_name(name)
+        if not p:
+            print "ERROR,can not get player:",name
+            raise Exception
+        if result:
+            p.acc_long_pass_success()
+        else:
+            p.acc_long_pass_fail()
+
+    @check_name_result_deco
+    def acc_player_cross_times(self, name, result):
+        p = self.get_player_by_name(name)
+        if not p:
+            print "ERROR,can not get player:",name
+            raise Exception
+        if result:
+            p.acc_cross_success()
+        else:
+            p.acc_cross_fail()
+
+    @check_name_result_deco
+    def acc_player_dribbling_times(self, name, result):
+        p = self.get_player_by_name(name)
+        if not p:
+            print "ERROR,can not get player:",name
+            raise Exception
+        if result:
+            p.acc_dribbling_success()
+        else:
+            p.acc_dribbling_fail()
 
 class PlayerResult(object):
     '''
@@ -99,7 +224,7 @@ class PlayerResult(object):
     def __init__(self, name):
         self.name = name
 
-        #attack
+        #attack 所有的进攻都是个人行为
         self.shoot_success = 0
         self.shoot_fail = 0
         self.short_pass_success = 0
@@ -122,6 +247,9 @@ class PlayerResult(object):
         self.def_team_long_pass_fail = 0
         self.def_cross_success = 0
         self.def_cross_fail = 0
+
+    def get_name(self):
+        return self.name
 
     def acc_shoot_success(self):
         self.shoot_success += 1
@@ -190,5 +318,9 @@ if __name__ == '__main__':
     b = Squad(side='away',team_name='b',mode='test')
     g = GameResult(a,b)
     g.acc_score('home')
-    #g.acc_player_shoot('home')
+    g.acc_player_shoot(side='home',name='test2',result=False)
+    g.acc_player_short_pass(side='home',name='test1',result=True)
+    g.acc_player_long_pass(side='home',name='test1',result=True)
+    g.acc_player_cross(side='home',name='test1',result=True)
+    g.acc_player_dribbling(side='home',name='test1',result=True)
     print ""
