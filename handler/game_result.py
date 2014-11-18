@@ -135,11 +135,48 @@ class GameResult(object):
         '''
         side: home, away
         result: True, False
+        name_list: def name list
         '''
         if side == 'home':
             self.home_team_res.acc_team_def_shoot_times(name_list,result)
         else:
             self.away_team_res.acc_team_def_shoot_times(name_list,result)
+
+    @check_side_name_list_result_deco
+    def acc_team_def_short_pass(self, side, name_list, result):
+        '''
+        side: home, away
+        result: True, False
+        name_list: def name list
+        '''
+        if side =='home':
+            self.home_team_res.acc_team_def_short_pass_times(name_list,result)
+        else:
+            self.away_team_res.acc_team_def_short_pass_times(name_list,result)
+
+    @check_side_name_list_result_deco
+    def acc_team_def_long_pass(self, side, name_list, result):
+        '''
+        side: home, away
+        result: True, False
+        name_list: def name list
+        '''
+        if side =='home':
+            self.home_team_res.acc_team_def_long_pass_times(name_list,result)
+        else:
+            self.away_team_res.acc_team_def_long_pass_times(name_list,result)
+
+    @check_side_name_list_result_deco
+    def acc_team_def_cross(self, side, name_list, result):
+        '''
+        side: home, away
+        result: True, False
+        name_list: def name list
+        '''
+        if side =='home':
+            self.home_team_res.acc_team_def_cross_times(name_list,result)
+        else:
+            self.away_team_res.acc_team_def_cross_times(name_list,result)
 
 
 class TeamResult(object):
@@ -171,7 +208,7 @@ class TeamResult(object):
             return func(self,name,result)
         return _assert_name_result_deco
 
-    def check_name_list_deco(func):
+    def check_name_list_result_deco(func):
         '''
         Decorator 检查name_list result
         '''
@@ -281,7 +318,7 @@ class TeamResult(object):
         else:
             p.acc_def_personal_dribbling_fail()
 
-    @check_name_list_deco
+    @check_name_list_result_deco
     def acc_team_def_shoot_times(self, name_list, result):
         p_list = self.get_player_list_by_name_list(name_list)
         if not p_list:
@@ -292,6 +329,43 @@ class TeamResult(object):
                 p.acc_def_team_shoot_success()
             else:
                 p.acc_def_team_shoot_fail()
+
+    @check_name_list_result_deco
+    def acc_team_def_short_pass_times(self, name_list, result):
+        p_list = self.get_player_list_by_name_list(name_list)
+        if not p_list:
+            print "ERROR, can not get player list",name_list
+            raise Exception
+        for p in p_list:
+            if result:
+                p.acc_def_team_short_pass_success()
+            else:
+                p.acc_def_team_short_pass_fail()
+
+    @check_name_list_result_deco
+    def acc_team_def_long_pass_times(self, name_list, result):
+        p_list = self.get_player_list_by_name_list(name_list)
+        if not p_list:
+            print "ERROR, can not get player list",name_list
+            raise Exception
+        for p in p_list:
+            if result:
+                p.acc_def_team_long_pass_success()
+            else:
+                p.acc_def_team_long_pass_fail()
+
+    @check_name_list_result_deco
+    def acc_team_def_cross_times(self, name_list, result):
+        p_list = self.get_player_list_by_name_list(name_list)
+        if not p_list:
+            print "ERROR, can not get player list",name_list
+            raise Exception
+        for p in p_list:
+            if result:
+                p.acc_def_team_cross_success()
+            else:
+                p.acc_def_team_cross_fail()
+
 
 class PlayerResult(object):
     '''
@@ -321,8 +395,8 @@ class PlayerResult(object):
         self.def_team_short_pass_fail = 0
         self.def_team_long_pass_success = 0
         self.def_team_long_pass_fail = 0
-        self.def_cross_success = 0
-        self.def_cross_fail = 0
+        self.def_team_cross_success = 0
+        self.def_team_cross_fail = 0
 
     def get_name(self):
         return self.name
@@ -381,11 +455,11 @@ class PlayerResult(object):
     def acc_def_team_long_pass_fail(self):
         self.def_team_long_pass_fail += 1
 
-    def acc_def_cross_success(self):
-        self.def_cross_success += 1
+    def acc_def_team_cross_success(self):
+        self.def_team_cross_success += 1
 
-    def acc_def_cross_fail(self):
-        self.def_cross_fail += 1
+    def acc_def_team_cross_fail(self):
+        self.def_team_cross_fail += 1
 
 
 
@@ -399,5 +473,10 @@ if __name__ == '__main__':
     g.acc_player_long_pass(side='home',name='test1',result=True)
     g.acc_player_cross(side='home',name='test1',result=True)
     g.acc_player_dribbling(side='home',name='test1',result=True)
+
     g.acc_team_def_shoot(side='home',name_list=['test1','test2'],result=True)
+    g.acc_team_def_cross(side='home',name_list=['test1','test2'],result=True)
+    g.acc_team_def_long_pass(side='home',name_list=['test1','test2'],result=True)
+    g.acc_team_def_short_pass(side='home',name_list=['test1','test2'],result=True)
+    g.acc_player_def_dribbling(side='home',name='test1',result=True)
     print ""
