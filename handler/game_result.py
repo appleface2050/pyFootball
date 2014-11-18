@@ -14,11 +14,21 @@ class GameResult(object):
         self.home_team_res = TeamResult(home_team.get_team_name(),home_team.get_side(),home_team.get_player_name_list())
         self.away_team_res = TeamResult(away_team.get_team_name(),away_team.get_side(),away_team.get_player_name_list())
 
+    # def assert_side_player_name_deco(func):
+    #     '''
+    #     检查side是否正确，player name是否重复
+    #     '''
+    #     def _assert_side_player_name_deco(self,side,home_team_res,away_team_res)
+
+
+
     def assert_side_deco(func):
-        def _assert_side_deco(side):
-            print side
-            #assert side in ('home','away')
-            return func(side)
+        '''
+        检查side值是否正确
+        '''
+        def _assert_side_deco(self,side):
+            assert side in ('home','away')
+            return func(self,side)
         return _assert_side_deco
 
     @assert_side_deco
@@ -39,7 +49,6 @@ class GameResult(object):
         name:
         result: Ture False
         '''
-        #assert side in ('home','away')
         if side == 'home':
             self.home_team_res.acc_player_shoot_times(name,result)
         else:
@@ -63,8 +72,25 @@ class TeamResult(object):
 
         self.score = 0
 
+    def check_name_result_deco(func):
+        '''
+        检查side值是否正确
+        '''
+        def _assert_name_result_deco(self,name,result):
+            assert result in (True,False)
+
+            return func(self,name,result)
+        return _assert_name_result_deco
+
+
     def acc_team_score(self):
         self.score += 1
+
+    def acc_player_shoot_times(self, name,result):
+        '''
+        name: player name
+        resutl: True False
+        '''
 
 class PlayerResult(object):
     '''
@@ -164,4 +190,5 @@ if __name__ == '__main__':
     b = Squad(side='away',team_name='b',mode='test')
     g = GameResult(a,b)
     g.acc_score('home')
+    #g.acc_player_shoot('home')
     print ""
