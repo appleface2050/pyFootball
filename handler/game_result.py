@@ -2,6 +2,7 @@
 # -*- coding: utf-8 -*-
 
 from handler.squad import Squad
+from data.player import Player
 
 class GameResult(object):
     '''
@@ -177,6 +178,29 @@ class GameResult(object):
             self.home_team_res.acc_team_def_cross_times(name_list,result)
         else:
             self.away_team_res.acc_team_def_cross_times(name_list,result)
+
+    def get_side_by_player_name(self, name):
+        '''
+        通过name判断是哪一方的球员
+        '''
+        if self.home_team_res.name_exist(name):
+            return 'home'
+        elif self.away_team_res.name_exist(name):
+            return 'away'
+        else:
+            print "ERROR, shoot player error",name
+            raise Exception
+
+    def acc_shoot_result(self,shoot_player,result):
+        '''
+        通过shoot_player 所在的队来判断哪个队增加一分，队员名称不能有重复
+        '''
+        assert result in (True,False)
+        name = shoot_player.get_name()
+        side = self.get_side_by_player_name(name)
+        if result:
+            self.acc_score(side)
+        self.acc_player_shoot(side,name,result)
 
 
 class TeamResult(object):
@@ -461,8 +485,6 @@ class PlayerResult(object):
     def acc_def_team_cross_fail(self):
         self.def_team_cross_fail += 1
 
-
-
 if __name__ == '__main__':
     a = Squad(side='home',team_name='a',mode='test')
     b = Squad(side='away',team_name='b',mode='test')
@@ -479,4 +501,9 @@ if __name__ == '__main__':
     g.acc_team_def_long_pass(side='home',name_list=['test1','test2'],result=True)
     g.acc_team_def_short_pass(side='home',name_list=['test1','test2'],result=True)
     g.acc_player_def_dribbling(side='home',name='test1',result=True)
+
+
+    player = Player(name='test5')
+    g.acc_shoot_result(shoot_player=player,result=True)
+
     print ""
