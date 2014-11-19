@@ -191,16 +191,29 @@ class GameResult(object):
             print "ERROR, shoot player error",name
             raise Exception
 
-    def acc_shoot_result(self,shoot_player,result):
+    def acc_shoot_result(self,player,result):
         '''
         通过shoot_player 所在的队来判断哪个队增加一分，队员名称不能有重复
         '''
-        assert result in (True,False)
-        name = shoot_player.get_name()
+        name = player.get_name()
         side = self.get_side_by_player_name(name)
         if result:
             self.acc_score(side)
         self.acc_player_shoot(side,name,result)
+
+    def acc_short_pass_result(self,player,result):
+        name = player.get_name()
+        side = self.get_side_by_player_name(name)
+        self.acc_player_short_pass(side,name,result)
+
+    def acc_long_pass_result(self,player,result):
+        name = player.get_name()
+        side = self.get_side_by_player_name(name)
+        self.acc_player_long_pass(side,name,result)
+
+#    def acc_cross_result(self):
+
+#    def acc_dribbling_result(self,attack_player,def_player,result):
 
 
 class TeamResult(object):
@@ -504,6 +517,6 @@ if __name__ == '__main__':
 
 
     player = Player(name='test5')
-    g.acc_shoot_result(shoot_player=player,result=True)
+    g.acc_shoot_result(player=player,result=True)
 
     print ""

@@ -111,7 +111,7 @@ class Match(object):
                 #self.set_ball_position('back')
                 self.set_ball_position_attack_back()
             self.reset_both_side_squad()
-            self.game_result.acc_shoot_result(shoot_player=shoot_player,res=res)
+            self.game_result.acc_shoot_result(player=shoot_player,res=res)
 
         elif att_way == 'short_pass':
             if result:  #传球成功位置进一格
