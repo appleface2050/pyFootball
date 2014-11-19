@@ -149,7 +149,7 @@ class Match(object):
                     self.set_player_disappear(defence_player)
             else:       #过人失败交换球权
                 self.change_ball_side()
-            self.game_result.set_dribbling_result(result=res,dribbling_player=dribbling_player,defence_player=defence_player)
+            self.game_result.set_dribbling_result(result=res,attack_player=dribbling_player,def_player=defence_player)
 
     def reset_both_side_squad(self):
         '''

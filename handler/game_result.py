@@ -133,17 +133,18 @@ class GameResult(object):
         else:
             self.away_team_res.acc_player_def_dribbling_times(name,result)
 
-    @check_side_name_list_result_deco
+    #@check_side_name_list_result_deco 不做检查，因为name_list可能为空，后防没有球员了
     def acc_team_def_shoot(self, side, name_list, result):
         '''
         side: home, away
         result: True, False
         name_list: def name list
         '''
-        if side == 'home':
-            self.home_team_res.acc_team_def_shoot_times(name_list,result)
-        else:
-            self.away_team_res.acc_team_def_shoot_times(name_list,result)
+        if len(name_list) != 0:        #后防队员数量不为0
+            if side == 'home':
+                self.home_team_res.acc_team_def_shoot_times(name_list,result)
+            else:
+                self.away_team_res.acc_team_def_shoot_times(name_list,result)
 
     @check_side_name_list_result_deco
     def acc_team_def_short_pass(self, side, name_list, result):
@@ -345,7 +346,7 @@ class TeamResult(object):
         else:
             p.acc_long_pass_fail()
 
-    @check_name_result_deco
+    @check_name_list_result_deco
     def acc_players_cross_times(self, name_list, result):
         p_list = self.get_player_list_by_name_list(name_list)
         if not p_list:
@@ -379,7 +380,7 @@ class TeamResult(object):
         else:
             p.acc_def_personal_dribbling_fail()
 
-    @check_name_list_result_deco
+    #@check_name_list_result_deco
     def acc_team_def_shoot_times(self, name_list, result):
         p_list = self.get_player_list_by_name_list(name_list)
         if not p_list:
@@ -526,21 +527,20 @@ if __name__ == '__main__':
     a = Squad(side='home',team_name='a',mode='test')
     b = Squad(side='away',team_name='b',mode='test')
     g = GameResult(a,b)
-    g.acc_score('home')
-    g.acc_player_shoot(side='home',name='test2',result=False)
-    g.acc_player_short_pass(side='home',name='test1',result=True)
-    g.acc_player_long_pass(side='home',name='test1',result=True)
-    #g.acc_player_cross(side='home',name='test1',result=True)
-    g.acc_player_dribbling(side='home',name='test1',result=True)
+    # g.acc_score('home')
+    # g.acc_player_shoot(side='home',name='test2',result=False)
+    # g.acc_player_short_pass(side='home',name='test1',result=True)
+    # g.acc_player_long_pass(side='home',name='test1',result=True)
+    # #g.acc_player_cross(side='home',name='test1',result=True)
+    # g.acc_player_dribbling(side='home',name='test1',result=True)
+    #
 
-    g.acc_team_def_shoot(side='home',name_list=['test1','test2'],result=True)
-    g.acc_team_def_cross(side='home',name_list=['test1','test2'],result=True)
-    g.acc_team_def_long_pass(side='home',name_list=['test1','test2'],result=True)
-    g.acc_team_def_short_pass(side='home',name_list=['test1','test2'],result=True)
-    g.acc_player_def_dribbling(side='home',name='test1',result=True)
+    # g.acc_team_def_cross(side='home',name_list=['test1','test2'],result=True)
+    # g.acc_team_def_long_pass(side='home',name_list=['test1','test2'],result=True)
+    # g.acc_team_def_short_pass(side='home',name_list=['test1','test2'],result=True)
+    # g.acc_player_def_dribbling(side='home',name='test1',result=True)
 
-
-    player = Player(name='test5')
-    g.set_shoot_result(player=player,result=True)
+    players = a.get_mid()
+    g.set_dribbling_result(False,a.get_forward()[0],b.get_defence()[0])
 
     print ""
