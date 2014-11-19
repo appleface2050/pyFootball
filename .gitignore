@@ -7,3 +7,5 @@
 
 .idea/
 .idea/*.xml
+.idea/workspace.xml
+.idea/pyFootball.iml
