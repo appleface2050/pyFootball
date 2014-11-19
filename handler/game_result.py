@@ -3,6 +3,8 @@
 
 from handler.squad import Squad
 from data.player import Player
+from conf.game_conf import BACKFIELD_ATT
+from lib.utils import invert
 
 class GameResult(object):
     '''
@@ -94,17 +96,17 @@ class GameResult(object):
         else:
             self.away_team_res.acc_player_long_pass_times(name,result)
 
-    @check_side_name_result_deco
-    def acc_player_cross(self, side, name, result):
+    @check_side_name_list_result_deco
+    def acc_team_att_cross(self, side, name_list, result):
         '''
         side: home, away
         name:
         result: True, False
         '''
         if side == 'home':
-            self.home_team_res.acc_player_cross_times(name,result)
+            self.home_team_res.acc_players_cross_times(name_list,result)
         else:
-            self.away_team_res.acc_player_cross_times(name,result)
+            self.away_team_res.acc_players_cross_times(name_list,result)
 
     @check_side_name_result_deco
     def acc_player_dribbling(self, side, name, result):
@@ -191,29 +193,50 @@ class GameResult(object):
             print "ERROR, shoot player error",name
             raise Exception
 
-    def acc_shoot_result(self,player,result):
+    #set_shoot_result(result=res,player=shoot_player,defence_players=defence_players)
+    def set_shoot_result(self, result, player, defence_players):
         '''
         通过shoot_player 所在的队来判断哪个队增加一分，队员名称不能有重复
         '''
         name = player.get_name()
+        defence_names_list = self.get_names(defence_players)
         side = self.get_side_by_player_name(name)
         if result:
             self.acc_score(side)
         self.acc_player_shoot(side,name,result)
+        self.acc_team_def_shoot(invert(side),defence_names_list,invert(result))
 
-    def acc_short_pass_result(self,player,result):
+    def set_short_pass_result(self, result, player, defence_players):
         name = player.get_name()
+        defence_names_list = self.get_names(defence_players)
         side = self.get_side_by_player_name(name)
         self.acc_player_short_pass(side,name,result)
+        self.acc_team_def_short_pass(invert(side),defence_names_list,invert(result))
 
-    def acc_long_pass_result(self,player,result):
+    def set_long_pass_result(self, result, player, defence_players):
         name = player.get_name()
+        defence_names_list = self.get_names(defence_players)
         side = self.get_side_by_player_name(name)
         self.acc_player_long_pass(side,name,result)
+        self.acc_team_def_long_pass(invert(side),defence_names_list,invert(result))
 
-#    def acc_cross_result(self):
+    def set_cross_result(self, result, attack_players, defence_players):
+        name = attack_players[0].get_name()
+        attack_names_list = self.get_names(attack_players)
+        defence_names_list = self.get_names(defence_players)
+        side = self.get_side_by_player_name(name)
+        #self.acc_players_cross(side,attack_names_list,result)
+        self.acc_team_att_cross(side,attack_names_list,result)
+        self.acc_team_def_cross(invert(side),defence_names_list,invert(result))
 
-#    def acc_dribbling_result(self,attack_player,def_player,result):
+    def set_dribbling_result(self, result, attack_player, def_player):
+        attack_player_name = attack_player.get_name()
+        side = self.get_side_by_player_name(attack_player_name)
+        self.acc_player_dribbling(side,attack_player_name,result)
+        self.acc_player_def_dribbling(invert(side),def_player.get_name(),invert(result))
+
+    def get_names(self,players):
+        return [i.get_name() for i in players]
 
 
 class TeamResult(object):
@@ -323,15 +346,16 @@ class TeamResult(object):
             p.acc_long_pass_fail()
 
     @check_name_result_deco
-    def acc_player_cross_times(self, name, result):
-        p = self.get_player_by_name(name)
-        if not p:
-            print "ERROR,can not get player:",name
+    def acc_players_cross_times(self, name_list, result):
+        p_list = self.get_player_list_by_name_list(name_list)
+        if not p_list:
+            print "ERROR,can not get player:",name_list
             raise Exception
-        if result:
-            p.acc_cross_success()
-        else:
-            p.acc_cross_fail()
+        for p in p_list:
+            if result:
+                p.acc_cross_success()
+            else:
+                p.acc_cross_fail()
 
     @check_name_result_deco
     def acc_player_dribbling_times(self, name, result):
@@ -506,7 +530,7 @@ if __name__ == '__main__':
     g.acc_player_shoot(side='home',name='test2',result=False)
     g.acc_player_short_pass(side='home',name='test1',result=True)
     g.acc_player_long_pass(side='home',name='test1',result=True)
-    g.acc_player_cross(side='home',name='test1',result=True)
+    #g.acc_player_cross(side='home',name='test1',result=True)
     g.acc_player_dribbling(side='home',name='test1',result=True)
 
     g.acc_team_def_shoot(side='home',name_list=['test1','test2'],result=True)
@@ -517,6 +541,6 @@ if __name__ == '__main__':
 
 
     player = Player(name='test5')
-    g.acc_shoot_result(player=player,result=True)
+    g.set_shoot_result(player=player,result=True)
 
     print ""

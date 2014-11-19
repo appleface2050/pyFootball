@@ -102,7 +102,7 @@ class Match(object):
 
     def finish_attack(self, att_way, result, att_team, defence_team):
         if att_way == 'shoot':
-            res, shoot_player = result[0], result[1]
+            res, shoot_player, defence_players = result[0], result[1], result[2]
             if res:  #进球进攻方分数加一，转换球权，球位置设为中场
                 self.acc_one_score()
                 self.after_goal_reset()
@@ -111,27 +111,33 @@ class Match(object):
                 #self.set_ball_position('back')
                 self.set_ball_position_attack_back()
             self.reset_both_side_squad()
-            self.game_result.acc_shoot_result(player=shoot_player,res=res)
+            self.game_result.set_shoot_result(result=res,player=shoot_player,defence_players=defence_players)
 
         elif att_way == 'short_pass':
+            res, short_pass_player, defence_players = result[0], result[1], result[2]
             if result:  #传球成功位置进一格
                 self.set_acc_ball_position()
             else:       #传球失败交换球权
                 self.change_ball_side()
+            self.game_result.set_short_pass_result(result=res,player=short_pass_player,defence_players=defence_players)
 
         elif att_way == 'long_pass':
+            res, long_pass_player, defence_players = result[0], result[1], result[2]
             if result:  #长传成功设置球位置为进攻方前场
                 self.set_ball_position_attack_front()
             else:       #长传失败转换持球权，设置球位置为进攻方后场
                 self.change_ball_side()
                 self.set_ball_position_attack_back()
                 self.reset_both_side_squad()
+            self.game_result.set_long_pass_result(result=res,player=long_pass_player,defence_players=defence_players)
 
         elif att_way == 'cross':
+            res, attack_players, defence_players =  result[0], result[1], result[2]
             if result:  #cross成功位置进一格
                 self.set_acc_ball_position()
             else:
                 self.change_ball_side()
+            self.game_result.set_cross_result(result=res,attack_players=attack_players,defence_players=defence_players)
 
         elif att_way == 'dribbling':
             res,dribbling_player,defence_player = result[0], result[1], result[2]
@@ -143,6 +149,7 @@ class Match(object):
                     self.set_player_disappear(defence_player)
             else:       #过人失败交换球权
                 self.change_ball_side()
+            self.game_result.set_dribbling_result(result=res,dribbling_player=dribbling_player,defence_player=defence_player)
 
     def reset_both_side_squad(self):
         '''
@@ -319,6 +326,8 @@ class Match(object):
         '''
         assert position in ATT_BALL_POSITION
         shoot_player = att_team.random_player(side='True',position=position)
+        #defence_players = defence_team.get_defence()
+        defence_players = defence_team.get_defence_players_by_team_attack_way_position('shoot',position)
         if not shoot_player:
             print "ERROR, shoot_player is None"
             raise MatcheException
@@ -334,7 +343,7 @@ class Match(object):
                 float(shoot_player.get_offensive() * shoot_player.get_finish()) / float((defence_team.get_avg_backfield_defence() * \
                                                                               defence_team.get_avg_backfield_marking()))
         res = random_result(score)
-        return [res,shoot_player]
+        return [res,shoot_player,defence_players]
 
     def cal_short_pass_res(self, att_team, defence_team, position):
         '''
@@ -345,14 +354,15 @@ class Match(object):
         '''
         assert position in ('back','mid')
         short_pass_player = att_team.random_player(side=True,position=position)
+        defence_players = defence_team.get_defence_players_by_team_attack_way_position('short_pass',position)
         base = 800.0
         score = base * \
                 (float(att_team.get_short_pass_player_num(True,position)) / float(att_team.get_short_pass_player_num(False,position))) * \
-                float(att_team.get_multy_field_avg(side=True,position=position,attr='offensive') * pass_player.get_short_pass()) / \
-                float(defence_team.get_multy_field_avg(side=False,position=position,attr='defence') * \
-                 defence_team.get_multy_field_avg(side=False,position=position,attr='marking'))
+                float(att_team.get_short_pass_multy_field_avg(side=True,position=position,attr='offensive') * short_pass_player.get_short_pass()) / \
+                float(defence_team.get_short_pass_multy_field_avg(side=False,position=position,attr='defence') * \
+                 defence_team.get_short_pass_multy_field_avg(side=False,position=position,attr='marking'))
         res = random_result(score)
-        return [res,short_pass_player]
+        return [res,short_pass_player,defence_players]
 
     def cal_long_pass_res(self, att_team, defence_team, position):
         '''
@@ -363,14 +373,15 @@ class Match(object):
         '''
         assert position in ('back')
         long_pass_player = att_team.random_player(side=True,position=position)
+        defence_players = defence_team.get_defence_players_by_team_attack_way_position('long_pass',position)
         base = 500.0
         score = base * \
                 float(att_team.get_long_pass_player_num() / defence_team.get_long_pass_player_num()) * \
-                float(att_team.get_multy_field_avg(side=True,position=position,attr='offensive') * pass_player.get_long_pass()) / \
-                float(defence_team.get_multy_field_avg(side=False,position=position,attr='defence') * \
-                 defence_team.get_multy_field_avg(side=False,position=position,attr='marking'))
+                float(att_team.get_long_pass_multy_field_avg(side=True,position=position,attr='offensive') * long_pass_player.get_long_pass()) / \
+                float(defence_team.get_long_pass_multy_field_avg(side=False,position=position,attr='defence') * \
+                 defence_team.get_long_pass_multy_field_avg(side=False,position=position,attr='marking'))
         res = random_result(score)
-        return [res,long_pass_player]
+        return [res,long_pass_player,defence_players]
 
     def cal_cross_res(self, att_team, defence_team, position):
         '''
@@ -380,6 +391,8 @@ class Match(object):
         base = 800
         '''
         assert position in ('back','mid')
+        attack_players = att_team.get_attack_players_by_team_attack_way_position('cross',position)
+        defence_players = defence_team.get_defence_players_by_team_attack_way_position('cross',position)
         base = 800.0
         score = base * \
                 (float(att_team.get_cross_player_num(side=True,position=position)) / float(defence_team.get_cross_player_num(side=False,position=position))) * \
@@ -387,7 +400,8 @@ class Match(object):
                 float(att_team.get_single_field_avg(side=True,position=position,attr='short_pass')) / \
                 float((defence_team.get_single_field_avg(side=False,position=position,attr='defence')) *\
                 (defence_team.get_single_field_avg(side=False,position=position,attr='marking')))
-        return random_result(score)
+        res = random_result(score)
+        return [res,attack_players,defence_players]
 
     def cal_dribbling_res(self, att_team, defence_team, position):
         '''

@@ -3,8 +3,7 @@
 
 from data.player import Player
 from lib.utils import multy_random_one
-from conf.game_conf import MIN_ATTR_VALUE
-
+from conf.game_conf import MIN_ATTR_VALUE,BACKFIELD_ATT,ATT_BALL_POSITION
 
 import copy
 
@@ -220,8 +219,9 @@ class Squad(object):
                 players = self.get_defence_player_by_att_ball_position('mid')
         return self.get_avg(players,attr)
 
-    def get_multy_field_avg(self, side ,position, attr):
+    def get_short_pass_multy_field_avg(self, side ,position, attr):
         '''
+        short pass
         position：进攻方球的位置
         attr: 属性
         '''
@@ -235,6 +235,21 @@ class Squad(object):
                 players = self.get_defence_player_by_att_ball_position('back') + self.get_defence_player_by_att_ball_position('mid')
             elif position == 'mid':
                 players = self.get_defence_player_by_att_ball_position('mid') + self.get_defence_player_by_att_ball_position('front')
+        return self.get_avg(players,attr)
+
+    def get_long_pass_multy_field_avg(self, side ,position, attr):
+        '''
+        long pass
+        position：进攻方球的位置
+        attr: 属性
+        '''
+        assert position in ('back')
+        if side:
+            if position == 'back':
+                players = self.get_player_by_att_ball_position('back') + self.get_player_by_att_ball_position('front')
+        else:
+            if position == 'back':
+                players = self.get_defence_player_by_att_ball_position('back') + self.get_defence_player_by_att_ball_position('front')
         return self.get_avg(players,attr)
 
     def get_cross_player_num(self, side, position):
@@ -292,6 +307,41 @@ class Squad(object):
     def print_desc(self):
         print "defence:",self.get_defence(),"mid:",self.get_mid(),"forword:",self.get_forward()
 
+    def get_attack_players_by_team_attack_way_position(self, attack_way, position):
+        '''
+        cross 获取进攻队员
+        '''
+        assert attack_way in ('cross')
+        assert position in ('back','mid')
+        if position == 'back':
+            return self.get_defence()
+        elif position == 'mid':
+            return self.get_mid()
+
+    def get_defence_players_by_team_attack_way_position(self, attack_way, position):
+        '''
+        通过防守的球队和进攻方的进攻方式获取参与防守的 defence_players
+        '''
+        assert attack_way in ['shoot','short_pass','long_pass','cross']  #dribbling为一对一的
+        defence_players = []
+        if attack_way == 'shoot':
+            return self.get_defence()
+        elif attack_way == 'short_pass':
+            assert position in ('back','mid')
+            if position == 'back':
+                return self.get_forward() + self.get_mid()
+            elif position == 'mid':
+                return self.get_mid() + self.get_defence()
+        elif attack_way == 'long_pass':
+            assert position in ('back')
+            if position == 'back':
+                return self.get_forward() + self.get_defence()
+        elif attack_way == 'cross':
+            assert position in ('back','mid')
+            if position == 'back':
+                return self.get_forward()
+            elif position == 'mid':
+                return self.get_mid()
 
 
 if __name__ == '__main__':
@@ -303,12 +353,14 @@ if __name__ == '__main__':
     #a.player_move_in(move_in_player)
     #a.print_current_squad()
 
-    a.player_disappear(move_in_player.get_name())
+    #a.player_disappear(move_in_player.get_name())
 
     #a.mid = a.remove_by_player_name(a.mid,move_in_player.get_name())
     #print a.get_player_list()
     a.print_desc()
-    print a.get_player_num(True,'mid')
+    #print a.get_player_num(True,'mid')
+    print a.get_defence_players_by_team_attack_way_position(attack_way='shoot', position='front')
+
 
     # print a.get_defence()
     # print a.get_mid()

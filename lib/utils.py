@@ -127,6 +127,17 @@ def multy_random_one(item_list):
 def random_result(score):
     return score<=random.randint(1,10000)
 
+def invert(item):
+    assert item in (False,True,'home','away')
+    if item == 'home':
+        return 'away'
+    elif item == 'away':
+        return 'home'
+    elif item == True:
+        return False
+    elif item == False:
+        return True
+
 if __name__ == '__main__':
     a = datetime.date(2007, 8, 21)
     b = datetime.date(2008, 3, 10)
