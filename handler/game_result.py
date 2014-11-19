@@ -257,6 +257,70 @@ class TeamResult(object):
 
         self.score = 0
 
+
+    # def get_all_player_result(self,attack_way,result):
+    #     count = 0
+    #     for player in [self.player1,self.player2,self.player3,self.player4,self.player5]:
+    #         count +=
+
+    def get_team_result(self, attack_way, result):
+        assert attack_way in BACKFIELD_ATT
+        assert result in (True,False)
+        count = 0
+        for player in [self.player1,self.player2,self.player3,self.player4,self.player5]:
+            if attack_way == 'shoot':
+                if result:
+                    count += player.self.shoot_success
+                else:
+                    count += player.self.self.shoot_fail
+            elif attack_way == 'short_pass':
+                if result:
+                    count += player.self.short_pass_success
+                else:
+                    count += player.self.short_pass_fail
+            elif attack_way == 'long_pass':
+                if result:
+                    count += player.self.long_pass_success
+                else:
+                    count += player.self.long_pass_fail
+            elif attack_way == 'cross':
+                if result:
+                    count += player.self.cross_success
+                else:
+                    count += player.self.cross_fail
+            elif attack_way == 'dribbling':
+                if result:
+                    count += player.self.dribbling_success
+                else:
+                    count += player.self.dribbling_fail
+        return count
+
+
+    def cal_team_result(self):
+        self.team_possession_time = 0
+
+        self.team_shoot_success = self.get_team_result('shoot',True)
+        self.team_shoot_fail = self.get_team_result('shoot',False)
+        self.team_short_pass_success = 0
+        self.team_short_pass_fail = 0
+        self.team_long_pass_success = 0
+        self.team_long_pass_fail = 0
+        self.team_cross_success = 0
+        self.team_cross_fail = 0
+        self.team_dribbling_success = 0
+        self.team_dribbling_fail = 0
+
+        self.team_def_shoot_success = 0
+        self.team_def_shoot_fail = 0
+        self.team_def_short_pass_success = 0
+        self.team_def_short_pass_fail = 0
+        self.team_def_long_pass_success = 0
+        self.team_def_long_pass_fail = 0
+        self.team_def_cross_success = 0
+        self.team_def_cross_fail = 0
+        self.team_def_dribbling_success = 0
+        self.team_def_dribbling_fail = 0
+
     def check_name_result_deco(func):
         '''
         Decorator 检查side值是否正确,name是否存在self队中

@@ -422,6 +422,7 @@ class Match(object):
 if __name__ == '__main__':
     a = Match(mode='test')
     a.run()
+    print ""
 
 
 
