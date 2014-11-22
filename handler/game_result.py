@@ -297,18 +297,21 @@ class TeamResult(object):
 
 
     def cal_team_result(self):
+        '''
+        比赛完成后计算team数值
+        '''
         self.team_possession_time = 0
 
         self.team_shoot_success = self.get_team_result('shoot',True)
         self.team_shoot_fail = self.get_team_result('shoot',False)
-        self.team_short_pass_success = 0
-        self.team_short_pass_fail = 0
-        self.team_long_pass_success = 0
-        self.team_long_pass_fail = 0
-        self.team_cross_success = 0
-        self.team_cross_fail = 0
-        self.team_dribbling_success = 0
-        self.team_dribbling_fail = 0
+        self.team_short_pass_success = self.get_team_result('short_pass',True)
+        self.team_short_pass_fail = self.get_team_result('short_pass',False)
+        self.team_long_pass_success = self.get_team_result('long_pass',True)
+        self.team_long_pass_fail = self.get_team_result('long_pass',False)
+        self.team_cross_success = self.get_team_result('cross',True)
+        self.team_cross_fail = self.get_team_result('cross',False)
+        self.team_dribbling_success = self.get_team_result('dribbling',True)
+        self.team_dribbling_fail = self.get_team_result('dribbling',False)
 
         self.team_def_shoot_success = 0
         self.team_def_shoot_fail = 0
@@ -491,7 +494,6 @@ class TeamResult(object):
                 p.acc_def_team_cross_success()
             else:
                 p.acc_def_team_cross_fail()
-
 
 class PlayerResult(object):
     '''
