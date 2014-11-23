@@ -239,6 +239,24 @@ class GameResult(object):
     def get_names(self,players):
         return [i.get_name() for i in players]
 
+    def cal_both_team_result(self):
+        self.home_team_res.cal_team_result()
+        self.away_team_res.cal_team_result()
+
+    def add_team_possesion(self, ball_side):
+        assert ball_side in (True,False)
+        if ball_side:
+            self.home_team_res.acc_possesion()
+        else:
+            self.away_team_res.acc_possesion()
+
+
+
+
+
+
+
+
 
 class TeamResult(object):
     '''
@@ -256,73 +274,104 @@ class TeamResult(object):
         self.player5 = PlayerResult(player_name_list[4])
 
         self.score = 0
-
+        self.team_possession_time = 0
 
     # def get_all_player_result(self,attack_way,result):
     #     count = 0
     #     for player in [self.player1,self.player2,self.player3,self.player4,self.player5]:
     #         count +=
 
-    def get_team_result(self, attack_way, result):
+    def get_team_attack_result(self, attack_way, result):
         assert attack_way in BACKFIELD_ATT
         assert result in (True,False)
         count = 0
         for player in [self.player1,self.player2,self.player3,self.player4,self.player5]:
             if attack_way == 'shoot':
                 if result:
-                    count += player.self.shoot_success
+                    count += player.shoot_success
                 else:
-                    count += player.self.self.shoot_fail
+                    count += player.shoot_fail
             elif attack_way == 'short_pass':
                 if result:
-                    count += player.self.short_pass_success
+                    count += player.short_pass_success
                 else:
-                    count += player.self.short_pass_fail
+                    count += player.short_pass_fail
             elif attack_way == 'long_pass':
                 if result:
-                    count += player.self.long_pass_success
+                    count += player.long_pass_success
                 else:
-                    count += player.self.long_pass_fail
+                    count += player.long_pass_fail
             elif attack_way == 'cross':
                 if result:
-                    count += player.self.cross_success
+                    count += player.cross_success
                 else:
-                    count += player.self.cross_fail
+                    count += player.cross_fail
             elif attack_way == 'dribbling':
                 if result:
-                    count += player.self.dribbling_success
+                    count += player.dribbling_success
                 else:
-                    count += player.self.dribbling_fail
+                    count += player.dribbling_fail
         return count
 
+    def get_team_def_result(self, defence_way, result):
+        #assert defence_way in BACKFIELD_ATT
+        assert result in (True,False)
+        count = 0
+        for player in [self.player1,self.player2,self.player3,self.player4,self.player5]:
+            if defence_way == 'def_shoot':
+                if result:
+                    count += player.def_team_shoot_success
+                else:
+                    count += player.def_team_shoot_fail
+            elif defence_way == 'def_short_pass':
+                if result:
+                    count += player.def_team_short_pass_success
+                else:
+                    count += player.def_team_short_pass_fail
+            elif defence_way == 'def_long_pass':
+                if result:
+                    count += player.def_team_long_pass_success
+                else:
+                    count += player.def_team_long_pass_fail
+            elif defence_way == 'def_cross':
+                if result:
+                    count += player.def_team_cross_success
+                else:
+                    count += player.def_team_cross_fail
+            elif defence_way == 'def_dribbling':
+                if result:
+                    count += player.def_personal_dribbling_success
+                else:
+                    count += player.def_personal_dribbling_fail
+        return count
 
     def cal_team_result(self):
         '''
         比赛完成后计算team数值
         '''
-        self.team_possession_time = 0
+        self.team_shoot_success = self.get_team_attack_result('shoot',True)
+        self.team_shoot_fail = self.get_team_attack_result('shoot',False)
+        self.team_short_pass_success = self.get_team_attack_result('short_pass',True)
+        self.team_short_pass_fail = self.get_team_attack_result('short_pass',False)
+        self.team_long_pass_success = self.get_team_attack_result('long_pass',True)
+        self.team_long_pass_fail = self.get_team_attack_result('long_pass',False)
+        self.team_cross_success = self.get_team_attack_result('cross',True)
+        self.team_cross_fail = self.get_team_attack_result('cross',False)
+        self.team_dribbling_success = self.get_team_attack_result('dribbling',True)
+        self.team_dribbling_fail = self.get_team_attack_result('dribbling',False)
 
-        self.team_shoot_success = self.get_team_result('shoot',True)
-        self.team_shoot_fail = self.get_team_result('shoot',False)
-        self.team_short_pass_success = self.get_team_result('short_pass',True)
-        self.team_short_pass_fail = self.get_team_result('short_pass',False)
-        self.team_long_pass_success = self.get_team_result('long_pass',True)
-        self.team_long_pass_fail = self.get_team_result('long_pass',False)
-        self.team_cross_success = self.get_team_result('cross',True)
-        self.team_cross_fail = self.get_team_result('cross',False)
-        self.team_dribbling_success = self.get_team_result('dribbling',True)
-        self.team_dribbling_fail = self.get_team_result('dribbling',False)
+        self.team_def_shoot_success = self.get_team_def_result('def_shoot',True)
+        self.team_def_shoot_fail = self.get_team_def_result('def_shoot',False)
+        self.team_def_short_pass_success = self.get_team_def_result('def_short_pass',True)
+        self.team_def_short_pass_fail = self.get_team_def_result('def_short_pass',False)
+        self.team_def_long_pass_success = self.get_team_def_result('def_long_pass',True)
+        self.team_def_long_pass_fail = self.get_team_def_result('def_long_pass',False)
+        self.team_def_cross_success = self.get_team_def_result('def_cross',True)
+        self.team_def_cross_fail = self.get_team_def_result('def_cross',False)
+        self.team_def_dribbling_success = self.get_team_def_result('def_dribbling',True)
+        self.team_def_dribbling_fail = self.get_team_def_result('def_dribbling',False)
 
-        self.team_def_shoot_success = 0
-        self.team_def_shoot_fail = 0
-        self.team_def_short_pass_success = 0
-        self.team_def_short_pass_fail = 0
-        self.team_def_long_pass_success = 0
-        self.team_def_long_pass_fail = 0
-        self.team_def_cross_success = 0
-        self.team_def_cross_fail = 0
-        self.team_def_dribbling_success = 0
-        self.team_def_dribbling_fail = 0
+        self.score = self.team_shoot_success
 
     def check_name_result_deco(func):
         '''
@@ -495,6 +544,22 @@ class TeamResult(object):
             else:
                 p.acc_def_team_cross_fail()
 
+    def acc_possesion(self):
+        self.team_possession_time += 1
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 class PlayerResult(object):
     '''
     Player Result
@@ -608,5 +673,5 @@ if __name__ == '__main__':
 
     players = a.get_mid()
     g.set_dribbling_result(False,a.get_forward()[0],b.get_defence()[0])
-
+    g.cal_both_team_result()
     print ""

@@ -28,6 +28,7 @@ class Match(object):
 
         self.game_result = GameResult(home_team=self.home_team,away_team=self.away_team)
 
+
     def att_ball_position(self):
         if self.ball_positoin == 1:
             if self.ball_side == True:
@@ -56,6 +57,16 @@ class Match(object):
             self.data_check()
             print 'time: ',m_time
             self.match_begin(self.home_team,self.away_team,self.ball_side)
+        self.end_game()
+
+    def end_game(self):
+        '''
+        比赛完成后的工作
+        '''
+        self.game_result.cal_both_team_result()
+
+    def add_team_possession_time(self):
+        self.game_result.add_team_possesion(self.ball_side)
 
     def data_check(self):
         '''
@@ -88,7 +99,7 @@ class Match(object):
         else:
             print "客队进攻..."
             self.attack(self.away_team,self.home_team,self.att_ball_position())  #客队进攻
-
+        self.add_team_possession_time()
 
     def attack(self, att_team, defence_team, att_ball_position):
         '''
@@ -422,6 +433,7 @@ class Match(object):
 if __name__ == '__main__':
     a = Match(mode='test')
     a.run()
+
     print ""
 
 
