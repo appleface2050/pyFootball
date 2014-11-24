@@ -128,7 +128,7 @@ def random_result(score):
     a = int(score)
     b = random.randint(1,1000)
     print a,b
-    return a<=b
+    return a>=b
 
 def invert(item):
     assert item in (False,True,'home','away')

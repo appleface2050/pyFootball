@@ -25,6 +25,7 @@ class GameResult(object):
         for res in [self.home_team_res,self.away_team_res]:
             print res.team_name
             print "score:",res.score
+            print "team possession time:",int(float(res.team_possession_time)/90.0)
             print "team shoot success:",res.team_shoot_success
             print "team shoot fail:",res.team_shoot_fail
             print "team short pass success:",res.team_short_pass_success
