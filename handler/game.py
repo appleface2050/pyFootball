@@ -13,10 +13,10 @@ class Match(object):
     '''
     Match
     '''
-    def __init__(self,mode=None):
+    def __init__(self, home_team='', away_team='', mode=None):
         self.mode = mode
-        self.home_team = ''
-        self.away_team = ''
+        self.home_team = home_team
+        self.away_team = away_team
 
         self.ball_side = True  #True 主队球权   False 客队球权
         self.ball_positoin = None # 1 2 3 分别代表主队眼中的后场 中场 前场

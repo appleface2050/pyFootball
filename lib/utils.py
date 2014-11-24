@@ -125,7 +125,10 @@ def multy_random_one(item_list):
     return item_list[random.randint(0,count-1)]
 
 def random_result(score):
-    return score<=random.randint(1,10000)
+    a = int(score)
+    b = random.randint(1,1000)
+    print a,b
+    return a<=b
 
 def invert(item):
     assert item in (False,True,'home','away')
