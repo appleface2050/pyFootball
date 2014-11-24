@@ -53,7 +53,7 @@ class Squad(object):
     def init_test_players(self):
         players = []
         for i in xrange(1,6):
-            players.append(Player(name=('test'+str(i))))
+            players.append(Player(name=('test'+str(i))+'-'+self.get_team_name()))
         return players
 
     def init_test_strategy(self):

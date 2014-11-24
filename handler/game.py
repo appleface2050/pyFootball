@@ -299,12 +299,11 @@ class Match(object):
         return multy_random_one(att_ways)
 
     def compare(self, att_team, defence_team, att_way, position):
-        print " 进攻方:",
+        print "进攻方:",
         att_team.print_desc()
-        print " 防守方:",
+        print "防守方:",
         defence_team.print_desc()
         print '进攻方式:',att_way,' ball position:',position
-        print "comparing..."
         if att_way == 'shoot':
             res = self.cal_shoot_res(att_team,defence_team,position)
         elif att_way == 'short_pass':
