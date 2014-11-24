@@ -1,11 +1,13 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
+import copy
 
 from handler.squad import Squad
 from conf.game_conf import BACKFIELD_ATT,MIDFIELD_ATT,FRONTFIELD_ATT,ATT_BALL_POSITION
 from data.exceptions import MatcheException
 from lib.utils import multy_random_one,random_result
 from handler.game_result import GameResult
+
 
 class Match(object):
     '''
@@ -278,14 +280,14 @@ class Match(object):
         att_ways = []
         if not att_team_strategy:       #未设置特殊的战术
             if att_ball_position == 'back':
-                att_ways = BACKFIELD_ATT
+                att_ways = copy.deepcopy(BACKFIELD_ATT)
             elif att_ball_position == 'mid':
-                att_ways = MIDFIELD_ATT
+                att_ways = copy.deepcopy(MIDFIELD_ATT)
             else:
                 if defence_team.get_defence_player_number() == 0:      #过完最后一个人的情况，防守方后卫人数为0
                     att_ways = ['shoot']
                 else:
-                    att_ways = FRONTFIELD_ATT
+                    att_ways = copy.deepcopy(FRONTFIELD_ATT)
         else:
             #not ready yet
             pass
