@@ -30,6 +30,8 @@ class Match(object):
 
         self.game_result = GameResult(home_team=self.home_team,away_team=self.away_team)
 
+    def print_result(self):
+        self.game_result.print_result()
 
     def att_ball_position(self):
         if self.ball_positoin == 1:
@@ -434,7 +436,7 @@ class Match(object):
 if __name__ == '__main__':
     a = Match(mode='test')
     a.run()
-
+    a.print_result()
     print ""
 
 

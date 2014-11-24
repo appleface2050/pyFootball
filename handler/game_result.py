@@ -20,6 +20,33 @@ class GameResult(object):
     #     '''
     #     def _assert_side_player_name_deco(self,side,home_team_res,away_team_res)
 
+    def print_result(self):
+        print "Game Result:"
+        for res in [self.home_team_res,self.away_team_res]:
+            print res.team_name
+            print "score:",res.score
+            print "team shoot success:",res.team_shoot_success
+            print "team shoot fail:",res.team_shoot_fail
+            print "team short pass success:",res.team_short_pass_success
+            print "team short pass fail:",res.team_short_pass_fail
+            print "team long pass success:",res.team_long_pass_success
+            print "team long pass fail:",res.team_long_pass_fail
+            print "team cross success:",res.team_cross_success
+            print "team cross fail:",res.team_cross_fail
+            print "team dribbling success:",res.team_dribbling_success
+            print "team dribbling fail:",res.team_dribbling_fail
+            print ""
+            print "team defence shoot success:",res.team_def_shoot_success
+            print "team defence shoot fail:",res.team_def_shoot_fail
+            print "team defence short pass success:",res.team_def_short_pass_success
+            print "team defence short pass fail:",res.team_def_short_pass_fail
+            print "team defence long pass success:",res.team_def_long_pass_success
+            print "team defence long pass fail:",res.team_def_long_pass_fail
+            print "team defence cross success:",res.team_def_cross_success
+            print "team defence cross fail:",res.team_def_cross_fail
+            print "team defence dribbling success:",res.team_def_dribbling_success
+            print "team defence dribbling fail:",res.team_def_dribbling_fail
+
     def check_side_name_result_deco(func):
         '''
         Decorator 检查side name result
