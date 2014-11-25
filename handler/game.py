@@ -5,9 +5,9 @@ import copy
 from handler.squad import Squad
 from conf.game_conf import BACKFIELD_ATT,MIDFIELD_ATT,FRONTFIELD_ATT,ATT_BALL_POSITION
 from data.exceptions import MatcheException
-from lib.utils import multy_random_one,random_result
+from lib.utils import multy_random_one,random_result,score_top
 from handler.game_result import GameResult
-
+from data.player import Player
 
 class Match(object):
     '''
@@ -334,7 +334,7 @@ class Match(object):
         '''
         射门结果计算公式：
         基础分数/(防守线人数+1) * （射门人进攻值*射门人射门值） / （防守方后场人员防守平均值*防守方后场人员平均mark值）
-        前场base = 700
+        前场base = 600
         中场base = 140
         后场base = 25
         '''
@@ -351,11 +351,13 @@ class Match(object):
         elif position == 'mid':
             base = 140.0
         else:
-            base = 700.0
+            base = 600.0
+        top = 900.0
         score = base / \
                 float(defence_team.get_player_num(side=False,position=position)+1) * \
                 float(shoot_player.get_offensive() * shoot_player.get_finish()) / float((defence_team.get_avg_backfield_defence() * \
                                                                               defence_team.get_avg_backfield_marking()))
+        score = score_top(score,top)
         res = random_result(score)
         return [res,shoot_player,defence_players]
 
@@ -370,11 +372,13 @@ class Match(object):
         short_pass_player = att_team.random_player(side=True,position=position)
         defence_players = defence_team.get_defence_players_by_team_attack_way_position('short_pass',position)
         base = 800.0
+        top = 950.0
         score = base * \
                 (float(att_team.get_short_pass_player_num(True,position)) / float(att_team.get_short_pass_player_num(False,position))) * \
                 float(att_team.get_short_pass_multy_field_avg(side=True,position=position,attr='offensive') * short_pass_player.get_short_pass()) / \
                 float(defence_team.get_short_pass_multy_field_avg(side=False,position=position,attr='defence') * \
                  defence_team.get_short_pass_multy_field_avg(side=False,position=position,attr='marking'))
+        score = score_top(score,top)
         res = random_result(score)
         return [res,short_pass_player,defence_players]
 
@@ -389,11 +393,13 @@ class Match(object):
         long_pass_player = att_team.random_player(side=True,position=position)
         defence_players = defence_team.get_defence_players_by_team_attack_way_position('long_pass',position)
         base = 500.0
+        top = 900.0
         score = base * \
                 float(att_team.get_long_pass_player_num() / defence_team.get_long_pass_player_num()) * \
                 float(att_team.get_long_pass_multy_field_avg(side=True,position=position,attr='offensive') * long_pass_player.get_long_pass()) / \
                 float(defence_team.get_long_pass_multy_field_avg(side=False,position=position,attr='defence') * \
                  defence_team.get_long_pass_multy_field_avg(side=False,position=position,attr='marking'))
+        score = score_top(score,top)
         res = random_result(score)
         return [res,long_pass_player,defence_players]
 
@@ -408,12 +414,14 @@ class Match(object):
         attack_players = att_team.get_attack_players_by_team_attack_way_position('cross',position)
         defence_players = defence_team.get_defence_players_by_team_attack_way_position('cross',position)
         base = 800.0
+        top = 900
         score = base * \
                 (float(att_team.get_cross_player_num(side=True,position=position)) / float(defence_team.get_cross_player_num(side=False,position=position))) * \
                 float(att_team.get_single_field_avg(side=True,position=position,attr='offensive')) * \
                 float(att_team.get_single_field_avg(side=True,position=position,attr='short_pass')) / \
                 float((defence_team.get_single_field_avg(side=False,position=position,attr='defence')) *\
                 (defence_team.get_single_field_avg(side=False,position=position,attr='marking')))
+        score = score_top(score,top)
         res = random_result(score)
         return [res,attack_players,defence_players]
 
@@ -427,14 +435,22 @@ class Match(object):
         dribbling_player = att_team.random_player(side=True,position=position)
         defence_player = defence_team.random_player(side=False,position=position)
         base = 500.0
+        top = 800.0
         score = base * \
                 float(dribbling_player.get_offensive() * dribbling_player.get_dribbling()) / \
                 float(defence_player.get_defence() * defence_player.get_marking())
+        score = score_top(score,top)
         res = random_result(score)
         return [res,dribbling_player,defence_player]
 
 if __name__ == '__main__':
-    a = Match(mode='test')
+    home_team = Squad(side='home',team_name='测试队1',player_list=[Player('test6'),Player('test7'),Player('test8'),Player('test9'),Player('test10')])
+    away_team = Squad(side='away',team_name='测试队2',player_list=[Player('test11'),Player('test12'),Player('test13'),Player('test14'),Player('test15')])
+    #home_team = Squad(side='home',team_name='测试队1',mode='test')
+    #away_team = Squad(side='away',team_name='测试队2',mode='test')
+
+    a = Match(home_team,away_team)
+    #a = Match(mode='test')
     a.run()
     a.print_result()
     print ""

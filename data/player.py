@@ -7,6 +7,8 @@ import datetime
 
 sys.path.append(os.path.dirname(os.path.split(os.path.realpath(__file__))[0]))
 
+from model.mgplayer import MGPlayer
+
 class Player(object):
     '''
     player in club
@@ -26,11 +28,25 @@ class Player(object):
         self.finish = 0;
         self.marking = 0;
 
-        self.init_test_player(name)
-
+        #self.init_test_player(name)
+        self.init_player(name)
 
         #save
         #self.stamina = 0;
+    def init_player(self, name):
+        p = MGPlayer.mgr().generate_player(name)
+        if name:
+            self.name = name
+            self.birthdate = p['birthdate']
+            self.age = self.cal_player_age(datetime.datetime.strptime(self.birthdate,'%Y-%m-%d').date())
+            self.salary = p['salary']
+            self.offensive = p['offensive']
+            self.defence = p['defence']
+            self.dribbling = p['dribbling']
+            self.short_pass = p['short_pass']
+            self.long_pass = p['long_pass']
+            self.finish = p['finish']
+            self.marking = p['marking']
 
     def init_test_player(self, name):
 
@@ -114,6 +130,6 @@ class Player(object):
 
 
 if __name__ == '__main__':
-    a = Player(name='test3')
+    a = Player(name='test19')
     print a
 

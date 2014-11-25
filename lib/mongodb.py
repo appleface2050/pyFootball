@@ -5,10 +5,10 @@ import pymongo,os,sys
 
 sys.path.append(os.path.dirname(os.path.split(os.path.realpath(__file__))[0]))
 
-from conf.settings import DB_MUSICMAGV2
+from conf.settings import DB_LOCALHOST
 
 class Mongo(object):
-    def __init__(self, db_conf=DB_MUSICMAGV2):
+    def __init__(self, db_conf=DB_LOCALHOST):
         '''
         Mongodb Wrapper
         '''
@@ -40,7 +40,7 @@ class Mongo(object):
             self.conn.close()
             self.conn = None
 
-class Model(object):
+class MGModel(object):
     '''
     Collection
     '''

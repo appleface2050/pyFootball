@@ -141,6 +141,12 @@ def invert(item):
     elif item == False:
         return True
 
+def score_top(score, top):
+    if score > top:
+        return top
+    else:
+        return score
+
 if __name__ == '__main__':
     a = datetime.date(2007, 8, 21)
     b = datetime.date(2008, 3, 10)

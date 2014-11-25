@@ -27,7 +27,10 @@ DB_CNF = {
 	's':{json.dumps(MYSQLDB):['Football']},
 }
 
-
+DB_LOCALHOST = {'host':'localhost',
+             'port':27017,
+             'user':'',
+             'passwd':''}
 
 
 

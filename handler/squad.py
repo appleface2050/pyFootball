@@ -11,10 +11,14 @@ class Squad(object):
     '''
     Team
     '''
-    def __init__(self,side,team_name,mode=None):
+    def __init__(self, side, team_name, player_list, mode=None):
         self.team_name = team_name
         self.side = side
-        self.player_list = []
+
+        if len(player_list) != 5:
+            print "ERROR, player_list number wrong"
+            raise Exception
+        self.player_list = player_list
         self.strategy = None
 
         self.forward = []
@@ -26,13 +30,13 @@ class Squad(object):
         self.inital_defence = []
         self.inital_player_list = []
 
-        self.prepare_game()
+        #self.prepare_game()
 
         if mode == 'test':
             self.player_list = self.init_test_players()
             self.init_test_squad()
             self.strategy = self.init_test_strategy()
-
+        self.init_test_squad()
         self.prepare_game()
 
     def prepare_game(self):
@@ -345,11 +349,11 @@ class Squad(object):
 
 
 if __name__ == '__main__':
-    a = Squad(side=True,team_name='qq',mode='test')
+    s1 = Squad(side=True,team_name='qq',player_list=[Player('test1'),Player('test2'),Player('test3'),Player('test4'),Player('test5')])
     print 'start'
-    a.print_current_squad()
+    s1.print_current_squad()
     print 'change'
-    move_in_player = a.get_defence()[0]
+    move_in_player = s1.get_defence()[0]
     #a.player_move_in(move_in_player)
     #a.print_current_squad()
 
@@ -357,9 +361,9 @@ if __name__ == '__main__':
 
     #a.mid = a.remove_by_player_name(a.mid,move_in_player.get_name())
     #print a.get_player_list()
-    a.print_desc()
+    s1.print_desc()
     #print a.get_player_num(True,'mid')
-    print a.get_defence_players_by_team_attack_way_position(attack_way='shoot', position='front')
+    print s1.get_defence_players_by_team_attack_way_position(attack_way='shoot', position='front')
 
 
     # print a.get_defence()
