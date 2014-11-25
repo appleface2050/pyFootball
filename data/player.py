@@ -37,8 +37,9 @@ class Player(object):
         p = MGPlayer.mgr().generate_player(name)
         if name:
             self.name = name
-            self.birthdate = p['birthdate']
-            self.age = self.cal_player_age(datetime.datetime.strptime(self.birthdate,'%Y-%m-%d').date())
+            #self.birthdate = p['birthdate']
+            #self.age = self.cal_player_age(datetime.datetime.strptime(self.birthdate,'%Y-%m-%d').date())
+            self.age = p['age']
             self.salary = p['salary']
             self.offensive = p['offensive']
             self.defence = p['defence']

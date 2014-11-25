@@ -415,12 +415,15 @@ class Match(object):
         defence_players = defence_team.get_defence_players_by_team_attack_way_position('cross',position)
         base = 800.0
         top = 900
-        score = base * \
-                (float(att_team.get_cross_player_num(side=True,position=position)) / float(defence_team.get_cross_player_num(side=False,position=position))) * \
-                float(att_team.get_single_field_avg(side=True,position=position,attr='offensive')) * \
-                float(att_team.get_single_field_avg(side=True,position=position,attr='short_pass')) / \
-                float((defence_team.get_single_field_avg(side=False,position=position,attr='defence')) *\
-                (defence_team.get_single_field_avg(side=False,position=position,attr='marking')))
+        if defence_team.get_cross_player_num(side=False,position=position) == 0:        #可能出现cross防守队员为0
+            score = top
+        else:
+            score = base * \
+                    (float(att_team.get_cross_player_num(side=True,position=position)) / float(defence_team.get_cross_player_num(side=False,position=position))) * \
+                    float(att_team.get_single_field_avg(side=True,position=position,attr='offensive')) * \
+                    float(att_team.get_single_field_avg(side=True,position=position,attr='short_pass')) / \
+                    float((defence_team.get_single_field_avg(side=False,position=position,attr='defence')) *\
+                    (defence_team.get_single_field_avg(side=False,position=position,attr='marking')))
         score = score_top(score,top)
         res = random_result(score)
         return [res,attack_players,defence_players]
@@ -444,10 +447,15 @@ class Match(object):
         return [res,dribbling_player,defence_player]
 
 if __name__ == '__main__':
-    home_team = Squad(side='home',team_name='测试队1',player_list=[Player('test6'),Player('test7'),Player('test8'),Player('test9'),Player('test10')])
-    away_team = Squad(side='away',team_name='测试队2',player_list=[Player('test11'),Player('test12'),Player('test13'),Player('test14'),Player('test15')])
-    #home_team = Squad(side='home',team_name='测试队1',mode='test')
-    #away_team = Squad(side='away',team_name='测试队2',mode='test')
+    home_team = Squad(
+        side='home',team_name='barcelona',
+        defence=[Player('Gerard Pique'),Player('Mascherano')],mid=[Player('Busquets'),Player('Iniesta')],forward=[Player('Messi')])
+    #away_team = Squad(
+    #    side='away',team_name='real mardrid',
+    #    defence=[Player('Ramos'),Player('Varane')],mid=[Player('Modric')],forward=[Player('Bale'),Player('Cristiano Ronaldo')])
+    away_team = Squad(
+        side='away',team_name='Manchester United',
+        defence=[Player('Phil Jones'),Player('Marcos Rojo')],mid=[Player('Juan Mata'),Player('Angel di Maria')],forward=[Player('Wayne Rooney')])
 
     a = Match(home_team,away_team)
     #a = Match(mode='test')

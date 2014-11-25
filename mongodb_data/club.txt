@@ -1,0 +1,21 @@
+{
+  "_id" : ObjectId("5474220ee418841e88c62cb4"),
+  "uptime" : "2014-11-25",
+  "name" : "FC Barcelona",
+  "money" : 0,
+  "league" : "L1"
+},
+{
+  "_id" : ObjectId("5474225de418841e88c62cb6"),
+  "uptime" : "2014-11-25",
+  "name" : "Bayern Munich",
+  "money" : 0,
+  "league" : "L1"
+},
+{
+  "_id" : ObjectId("5474299be418841e88c62cbc"),
+  "uptime" : "2014-11-25",
+  "name" : "Real Madrid",
+  "money" : 0,
+  "league" : "L1"
+}

@@ -11,19 +11,19 @@ class Squad(object):
     '''
     Team
     '''
-    def __init__(self, side, team_name, player_list, mode=None):
+    def __init__(self, side, team_name, defence, mid, forward, mode=None):
         self.team_name = team_name
         self.side = side
 
-        if len(player_list) != 5:
+        self.forward = forward
+        self.mid = mid
+        self.defence = defence
+        self.player_list = self.forward + self.mid + self.defence
+        if len(self.player_list) != 5:
             print "ERROR, player_list number wrong"
             raise Exception
-        self.player_list = player_list
-        self.strategy = None
 
-        self.forward = []
-        self.mid = []
-        self.defence = []
+        self.strategy = None
 
         self.inital_forward = []
         self.inital_mid = []
@@ -36,7 +36,7 @@ class Squad(object):
             self.player_list = self.init_test_players()
             self.init_test_squad()
             self.strategy = self.init_test_strategy()
-        self.init_test_squad()
+        #self.init_test_squad()
         self.prepare_game()
 
     def prepare_game(self):
@@ -349,7 +349,11 @@ class Squad(object):
 
 
 if __name__ == '__main__':
-    s1 = Squad(side=True,team_name='qq',player_list=[Player('test1'),Player('test2'),Player('test3'),Player('test4'),Player('test5')])
+    #s1 = Squad(side=True,team_name='qq',player_list=[Player('test1'),Player('test2'),Player('test3'),Player('test4'),Player('test5')])\
+    s1 = Squad(
+        side=True,team_name='barcelona',
+        defence=[Player('Gerard Pique'),Player('Mascherano')],mid=[Player('Busquets'),Player('Iniesta')],forward=[Player('Messi')]
+    )
     print 'start'
     s1.print_current_squad()
     print 'change'

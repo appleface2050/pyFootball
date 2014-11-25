@@ -28,7 +28,7 @@ class MGPlayer(MGModel):
         while(name_start<=name_end):
             data = {
           "name" : "",
-          "birthdate" : "1990-01-01",
+          "age" : 0,
           "salary" : 0,
           "offensive" : 10,
           "defence" : 10,
@@ -37,7 +37,7 @@ class MGPlayer(MGModel):
           "long_pass" : 10,
           "finish" : 10,
           "marking" : 10,
-          "uptime" : "2014-11-25 00:11:31"
+          "uptime" : "2014-11-25"
         }
             data['name'] = "test"+str(name_start)
             data['uptime'] = now.strftime(('%Y-%m-%d'))
