@@ -1,6 +1,5 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
-
 class Subject(object):
     '''
     abstract class
@@ -17,7 +16,6 @@ class Subject(object):
     def notify(self):
         for o in self.observers:
             o.update()
-
 class Observer(object):
     '''
     abstract class
