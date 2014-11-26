@@ -13,3 +13,4 @@ FRONTFIELD_ATT = ['shoot','dribbling']
 ATT_BALL_POSITION = ['front','mid','back']
 
 MIN_ATTR_VALUE = 7
+

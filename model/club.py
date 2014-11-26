@@ -9,13 +9,11 @@ sys.path.append(os.path.dirname(os.path.split(os.path.realpath(__file__))[0]))
 
 from lib.database import Model
 
-
-
 class ClubDB(Model):
     '''
     Club
     '''
-    _db = 'Football'
+    _db = 'fb'
     _pk = 'id'
     _table = 'club'
     _fields = set(['id','name','start','money','league','uptime'])
@@ -31,5 +29,4 @@ class ClubDB(Model):
 
 
 if __name__ == '__main__':
-    #ClubDB.new().init_table()
-    pass
+    ClubDB.new().init_table()

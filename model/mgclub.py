@@ -16,3 +16,5 @@ class MGClub(MGModel):
     _db = 'fb'
     _collection = 'club'
 
+    def get_all_club_data(self):
+        return self.mgr().find_all()

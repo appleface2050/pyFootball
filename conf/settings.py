@@ -7,9 +7,9 @@ import json
 
 MYSQLDB = {
 	#'host':'192.168.1.108',
-	'host':'localhost',
+	'host':'192.168.60.130',
 	'port':3306,
-	'user':'appleface2050',
+	'user':'root',
     #'user':'appleface',
 	'passwd':'root',
 	'db':'',
@@ -23,8 +23,8 @@ MONGODB = {
 }
 
 DB_CNF = {
-	'm':{json.dumps(MYSQLDB):['Football']},
-	's':{json.dumps(MYSQLDB):['Football']},
+	'm':{json.dumps(MYSQLDB):['fb']},
+	's':{json.dumps(MYSQLDB):['fb']},
 }
 
 DB_LOCALHOST = {'host':'localhost',

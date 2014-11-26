@@ -13,7 +13,7 @@ class PlayerDB(Model):
     '''
     playerDB
     '''
-    _db = 'Football'
+    _db = 'fb'
     _pk = 'id'
     _table = 'player'
     _fields = set(['id','name','birthdate','salary','offensive','defence','dribbling','short_pass','long_pass','finish',
