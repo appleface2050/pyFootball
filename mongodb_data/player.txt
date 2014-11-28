@@ -11,7 +11,8 @@
   "finish" : 13,
   "marking" : 15,
   "club" : "FC Barcelona",
-  "uptime" : "2014-11-25"
+  "uptime" : "2014-11-25",
+  "position" : "defence"
 },
 {
   "_id" : ObjectId("54742608e418841e88c62cb8"),
@@ -26,7 +27,8 @@
   "finish" : 7,
   "marking" : 19,
   "club" : "FC Barcelona",
-  "uptime" : "2014-11-25"
+  "uptime" : "2014-11-25",
+  "position" : "defence"
 },
 {
   "_id" : ObjectId("5474267de418841e88c62cb9"),
@@ -41,7 +43,8 @@
   "finish" : 12,
   "marking" : 14,
   "club" : "FC Barcelona",
-  "uptime" : "2014-11-25"
+  "uptime" : "2014-11-25",
+  "position" : "mid"
 },
 {
   "_id" : ObjectId("5474271ae418841e88c62cba"),
@@ -56,12 +59,13 @@
   "finish" : 15,
   "marking" : 8,
   "club" : "FC Barcelona",
-  "uptime" : "2014-11-25"
+  "uptime" : "2014-11-25",
+  "position" : "mid"
 },
 {
   "_id" : ObjectId("54742785e418841e88c62cbb"),
   "name" : "Messi",
-  "age" : 17,
+  "age" : 27,
   "salary" : 105,
   "offensive" : 20,
   "defence" : 7,
@@ -71,7 +75,8 @@
   "finish" : 20,
   "marking" : 7,
   "club" : "FC Barcelona",
-  "uptime" : "2014-11-25"
+  "uptime" : "2014-11-25",
+  "position" : "forward"
 },
 {
   "_id" : ObjectId("54742a15e418841e88c62cbd"),
@@ -86,7 +91,8 @@
   "finish" : 15,
   "marking" : 17,
   "club" : "Real Madrid",
-  "uptime" : "2014-11-25"
+  "uptime" : "2014-11-25",
+  "position" : "defence"
 },
 {
   "_id" : ObjectId("54742a81e418841e88c62cbe"),
@@ -101,7 +107,8 @@
   "finish" : 9,
   "marking" : 18,
   "club" : "Real Madrid",
-  "uptime" : "2014-11-25"
+  "uptime" : "2014-11-25",
+  "position" : "defence"
 },
 {
   "_id" : ObjectId("54742af1e418841e88c62cbf"),
@@ -116,7 +123,8 @@
   "finish" : 17,
   "marking" : 10,
   "club" : "Real Madrid",
-  "uptime" : "2014-11-25"
+  "uptime" : "2014-11-25",
+  "position" : "forward"
 },
 {
   "_id" : ObjectId("54742b56e418841e88c62cc0"),
@@ -131,7 +139,8 @@
   "finish" : 14,
   "marking" : 11,
   "club" : "Real Madrid",
-  "uptime" : "2014-11-25"
+  "uptime" : "2014-11-25",
+  "position" : "mid"
 },
 {
   "_id" : ObjectId("54742be3e418841e88c62cc1"),
@@ -146,7 +155,8 @@
   "finish" : 20,
   "marking" : 7,
   "club" : "Real Madrid",
-  "uptime" : "2014-11-25"
+  "uptime" : "2014-11-25",
+  "position" : "forward"
 },
 {
   "_id" : ObjectId("547436f3e418841e88c62cc3"),
@@ -161,7 +171,8 @@
   "finish" : 12,
   "marking" : 14,
   "club" : "Manchester United",
-  "uptime" : "2014-11-25"
+  "uptime" : "2014-11-25",
+  "position" : "defence"
 },
 {
   "_id" : ObjectId("54743737e418841e88c62cc4"),
@@ -176,7 +187,8 @@
   "finish" : 14,
   "marking" : 16,
   "club" : "Manchester United",
-  "uptime" : "2014-11-25"
+  "uptime" : "2014-11-25",
+  "position" : "defence"
 },
 {
   "_id" : ObjectId("547437a7e418841e88c62cc5"),
@@ -191,7 +203,8 @@
   "finish" : 15,
   "marking" : 11,
   "club" : "Manchester United",
-  "uptime" : "2014-11-25"
+  "uptime" : "2014-11-25",
+  "position" : "mid"
 },
 {
   "_id" : ObjectId("5474381fe418841e88c62cc6"),
@@ -206,7 +219,8 @@
   "finish" : 15,
   "marking" : 9,
   "club" : "Manchester United",
-  "uptime" : "2014-11-25"
+  "uptime" : "2014-11-25",
+  "position" : "mid"
 },
 {
   "_id" : ObjectId("547439eee418841e88c62cc7"),
@@ -221,5 +235,406 @@
   "finish" : 16,
   "marking" : 13,
   "club" : "Manchester United",
-  "uptime" : "2014-11-25"
+  "uptime" : "2014-11-25",
+  "position" : "forward"
+},
+{
+  "_id" : ObjectId("5477d82fe41884177447b562"),
+  "name" : "Boateng",
+  "age" : 26,
+  "salary" : 26,
+  "offensive" : 7,
+  "defence" : 17,
+  "dribbling" : 12,
+  "short_pass" : 16,
+  "long_pass" : 14,
+  "finish" : 7,
+  "marking" : 14,
+  "club" : "Bayern Munich",
+  "uptime" : "2014-11-26",
+  "position" : "defence"
+},
+{
+  "_id" : ObjectId("5477d8a6e41884177447b563"),
+  "name" : "Medhi Benatia",
+  "age" : 27,
+  "salary" : 24,
+  "offensive" : 7,
+  "defence" : 16,
+  "dribbling" : 9,
+  "short_pass" : 14,
+  "long_pass" : 15,
+  "finish" : 8,
+  "marking" : 16,
+  "club" : "Bayern Munich",
+  "uptime" : "2014-11-26",
+  "position" : "defence"
+},
+{
+  "_id" : ObjectId("5477d913e41884177447b564"),
+  "name" : "Mario Gotze",
+  "age" : 22,
+  "salary" : 42,
+  "offensive" : 17,
+  "defence" : 9,
+  "dribbling" : 16,
+  "short_pass" : 17,
+  "long_pass" : 17,
+  "finish" : 16,
+  "marking" : 12,
+  "club" : "Bayern Munich",
+  "uptime" : "2014-11-26",
+  "position" : "mid"
+},
+{
+  "_id" : ObjectId("5477d96fe41884177447b565"),
+  "name" : "Franck Ribery",
+  "age" : 31,
+  "salary" : 31,
+  "offensive" : 19,
+  "defence" : 11,
+  "dribbling" : 18,
+  "short_pass" : 17,
+  "long_pass" : 14,
+  "finish" : 18,
+  "marking" : 11,
+  "club" : "Bayern Munich",
+  "uptime" : "2014-11-26",
+  "position" : "mid"
+},
+{
+  "_id" : ObjectId("5477d9b3e41884177447b566"),
+  "name" : "Thomas Muller",
+  "age" : 25,
+  "salary" : 40,
+  "offensive" : 18,
+  "defence" : 13,
+  "dribbling" : 16,
+  "short_pass" : 18,
+  "long_pass" : 15,
+  "finish" : 18,
+  "marking" : 10,
+  "club" : "Bayern Munich",
+  "uptime" : "2014-11-26",
+  "position" : "forward"
+},
+{
+  "_id" : ObjectId("5477e14fe41884177447b567"),
+  "name" : "Gary Cahill",
+  "age" : 28,
+  "salary" : 15,
+  "offensive" : 11,
+  "defence" : 17,
+  "dribbling" : 10,
+  "short_pass" : 17,
+  "long_pass" : 15,
+  "finish" : 10,
+  "marking" : 16,
+  "club" : "Chelsea FC",
+  "uptime" : "2014-11-26",
+  "position" : "defence"
+},
+{
+  "_id" : ObjectId("54780edae418841b80cb75d6"),
+  "name" : "John Terry ",
+  "age" : 33,
+  "salary" : 3,
+  "offensive" : 14,
+  "defence" : 18,
+  "dribbling" : 7,
+  "short_pass" : 15,
+  "long_pass" : 12,
+  "finish" : 17,
+  "marking" : 18,
+  "club" : "Chelsea FC",
+  "uptime" : "2014-11-26",
+  "position" : "defence"
+},
+{
+  "_id" : ObjectId("54780f66e418841b80cb75d7"),
+  "name" : "Cesc Fabregas",
+  "age" : 27,
+  "salary" : 35,
+  "offensive" : 18,
+  "defence" : 13,
+  "dribbling" : 13,
+  "short_pass" : 18,
+  "long_pass" : 17,
+  "finish" : 16,
+  "marking" : 10,
+  "club" : "Chelsea FC",
+  "uptime" : "2014-11-26",
+  "position" : "mid"
+},
+{
+  "_id" : ObjectId("54780fc2e418841b80cb75d8"),
+  "name" : "Eden Hazard",
+  "age" : 23,
+  "salary" : 42,
+  "offensive" : 18,
+  "defence" : 8,
+  "dribbling" : 17,
+  "short_pass" : 17,
+  "long_pass" : 16,
+  "finish" : 17,
+  "marking" : 9,
+  "club" : "Chelsea FC",
+  "uptime" : "2014-11-26",
+  "position" : "mid"
+},
+{
+  "_id" : ObjectId("5478101be418841b80cb75d9"),
+  "name" : "Diego Costa",
+  "age" : 26,
+  "salary" : 33,
+  "offensive" : 17,
+  "defence" : 8,
+  "dribbling" : 13,
+  "short_pass" : 15,
+  "long_pass" : 15,
+  "finish" : 19,
+  "marking" : 11,
+  "club" : "Chelsea FC",
+  "uptime" : "2014-11-26",
+  "position" : "forward"
+},
+{
+  "_id" : ObjectId("54781093e418841b80cb75da"),
+  "name" : "Vincent Kompany",
+  "age" : 28,
+  "salary" : 19,
+  "offensive" : 14,
+  "defence" : 18,
+  "dribbling" : 7,
+  "short_pass" : 14,
+  "long_pass" : 14,
+  "finish" : 14,
+  "marking" : 19,
+  "club" : "Manchester City",
+  "uptime" : "2014-11-26",
+  "position" : "defence"
+},
+{
+  "_id" : ObjectId("547810ece418841b80cb75db"),
+  "name" : "Eliaquim Mangala",
+  "age" : 21,
+  "salary" : 31,
+  "offensive" : 12,
+  "defence" : 16,
+  "dribbling" : 7,
+  "short_pass" : 14,
+  "long_pass" : 12,
+  "finish" : 13,
+  "marking" : 17,
+  "club" : "Manchester City",
+  "uptime" : "2014-11-26",
+  "position" : "defence"
+},
+{
+  "_id" : ObjectId("5478113be418841b80cb75dc"),
+  "name" : "David Silva",
+  "age" : 28,
+  "salary" : 35,
+  "offensive" : 18,
+  "defence" : 9,
+  "dribbling" : 17,
+  "short_pass" : 17,
+  "long_pass" : 15,
+  "finish" : 14,
+  "marking" : 8,
+  "club" : "Manchester City",
+  "uptime" : "2014-11-26",
+  "position" : "mid"
+},
+{
+  "_id" : ObjectId("54781183e418841b80cb75dd"),
+  "name" : "Yaya Touré",
+  "age" : 31,
+  "salary" : 26,
+  "offensive" : 15,
+  "defence" : 15,
+  "dribbling" : 11,
+  "short_pass" : 16,
+  "long_pass" : 15,
+  "finish" : 16,
+  "marking" : 16,
+  "club" : "Manchester City",
+  "uptime" : "2014-11-26",
+  "position" : "mid"
+},
+{
+  "_id" : ObjectId("547811f4e418841b80cb75de"),
+  "name" : "Kun Aguero",
+  "age" : 26,
+  "salary" : 40,
+  "offensive" : 19,
+  "defence" : 7,
+  "dribbling" : 17,
+  "short_pass" : 16,
+  "long_pass" : 12,
+  "finish" : 19,
+  "marking" : 7,
+  "club" : "Manchester City",
+  "uptime" : "2014-11-26",
+  "position" : "forward"
+},
+{
+  "_id" : ObjectId("54781261e418841b80cb75df"),
+  "name" : "Per Mertesacker",
+  "age" : 30,
+  "salary" : 18,
+  "offensive" : 7,
+  "defence" : 16,
+  "dribbling" : 9,
+  "short_pass" : 14,
+  "long_pass" : 14,
+  "finish" : 10,
+  "marking" : 17,
+  "club" : "Arsenal FC",
+  "uptime" : "2014-11-26",
+  "position" : "defence"
+},
+{
+  "_id" : ObjectId("547812b0e418841b80cb75e0"),
+  "name" : "Laurent Koscielny",
+  "age" : 29,
+  "salary" : 18,
+  "offensive" : 8,
+  "defence" : 17,
+  "dribbling" : 9,
+  "short_pass" : 15,
+  "long_pass" : 12,
+  "finish" : 9,
+  "marking" : 16,
+  "club" : "Arsenal FC",
+  "uptime" : "2014-11-26",
+  "position" : "defence"
+},
+{
+  "_id" : ObjectId("547812e2e418841b80cb75e1"),
+  "name" : "Jack Wilshere",
+  "age" : 22,
+  "salary" : 26,
+  "offensive" : 15,
+  "defence" : 12,
+  "dribbling" : 13,
+  "short_pass" : 16,
+  "long_pass" : 15,
+  "finish" : 14,
+  "marking" : 12,
+  "club" : "Arsenal FC",
+  "uptime" : "2014-11-26",
+  "position" : "mid"
+},
+{
+  "_id" : ObjectId("54781341e418841b80cb75e2"),
+  "name" : "Mesut Ozil",
+  "age" : 25,
+  "salary" : 40,
+  "offensive" : 18,
+  "defence" : 11,
+  "dribbling" : 14,
+  "short_pass" : 19,
+  "long_pass" : 18,
+  "finish" : 15,
+  "marking" : 7,
+  "club" : "Arsenal FC",
+  "uptime" : "2014-11-26",
+  "position" : "mid"
+},
+{
+  "_id" : ObjectId("54781398e418841b80cb75e3"),
+  "name" : "Alexis Sanchez",
+  "age" : 25,
+  "salary" : 33,
+  "offensive" : 17,
+  "defence" : 7,
+  "dribbling" : 18,
+  "short_pass" : 14,
+  "long_pass" : 14,
+  "finish" : 17,
+  "marking" : 7,
+  "club" : "Arsenal FC",
+  "uptime" : "2014-11-26",
+  "position" : "forward"
+},
+{
+  "_id" : ObjectId("547814a6e418841b80cb75e6"),
+  "name" : "Yohan Cabaye",
+  "age" : 18,
+  "salary" : 20,
+  "offensive" : 14,
+  "defence" : 14,
+  "dribbling" : 11,
+  "short_pass" : 15,
+  "long_pass" : 14,
+  "finish" : 13,
+  "marking" : 13,
+  "club" : "FC Paris Saint-Germain",
+  "uptime" : "2014-11-26",
+  "position" : "mid"
+},
+{
+  "_id" : ObjectId("54781531e418841b80cb75e8"),
+  "name" : "Zlatan Ibrahimovic",
+  "age" : 33,
+  "salary" : 23,
+  "offensive" : 19,
+  "defence" : 9,
+  "dribbling" : 15,
+  "short_pass" : 15,
+  "long_pass" : 13,
+  "finish" : 18,
+  "marking" : 7,
+  "club" : "FC Paris Saint-Germain",
+  "uptime" : "2014-11-26",
+  "position" : "forward"
+},
+{
+  "_id" : ObjectId("54781407e418841b80cb75e4"),
+  "name" : "Thiago Silva",
+  "age" : 30,
+  "salary" : 35,
+  "offensive" : 9,
+  "defence" : 20,
+  "dribbling" : 7,
+  "short_pass" : 13,
+  "long_pass" : 12,
+  "finish" : 11,
+  "marking" : 20,
+  "club" : "FC Paris Saint-Germain",
+  "uptime" : "2014-11-26",
+  "position" : "defence"
+},
+{
+  "_id" : ObjectId("5478144de418841b80cb75e5"),
+  "name" : "David Luiz",
+  "age" : 27,
+  "salary" : 26,
+  "offensive" : 11,
+  "defence" : 18,
+  "dribbling" : 7,
+  "short_pass" : 14,
+  "long_pass" : 13,
+  "finish" : 10,
+  "marking" : 19,
+  "club" : "FC Paris Saint-Germain",
+  "uptime" : "2014-11-26",
+  "position" : "defence"
+},
+{
+  "_id" : ObjectId("547814ece418841b80cb75e7"),
+  "name" : "Javier Pastore",
+  "age" : 25,
+  "salary" : 16,
+  "offensive" : 17,
+  "defence" : 9,
+  "dribbling" : 13,
+  "short_pass" : 16,
+  "long_pass" : 15,
+  "finish" : 13,
+  "marking" : 7,
+  "club" : "FC Paris Saint-Germain",
+  "uptime" : "2014-11-26",
+  "position" : "mid"
 }

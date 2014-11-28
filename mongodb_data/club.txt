@@ -1,21 +1,64 @@
 {
+  "_id" : ObjectId("54743641e418841e88c62cc2"),
+  "uptime" : "2014-11-25",
+  "name" : "Manchester United",
+  "money" : 0,
+  "league" : "L1",
+  "club_name" : "manchesterunited"
+},
+{
+  "_id" : ObjectId("5477d122e41884177447b55f"),
+  "uptime" : "2014-11-26",
+  "name" : "Manchester City",
+  "money" : 0,
+  "league" : "L1",
+  "club_name" : "manchestercity"
+},
+{
+  "_id" : ObjectId("5477d137e41884177447b561"),
+  "uptime" : "2014-11-26",
+  "name" : "FC Paris Saint-Germain",
+  "money" : 0,
+  "league" : "L1",
+  "club_name" : "fcparissaint-germain"
+},
+{
   "_id" : ObjectId("5474220ee418841e88c62cb4"),
   "uptime" : "2014-11-25",
   "name" : "FC Barcelona",
   "money" : 0,
-  "league" : "L1"
+  "league" : "L1",
+  "club_name" : "fcbarcelona"
 },
 {
   "_id" : ObjectId("5474225de418841e88c62cb6"),
   "uptime" : "2014-11-25",
   "name" : "Bayern Munich",
   "money" : 0,
-  "league" : "L1"
+  "league" : "L1",
+  "club_name" : "bayernmunich"
 },
 {
   "_id" : ObjectId("5474299be418841e88c62cbc"),
   "uptime" : "2014-11-25",
   "name" : "Real Madrid",
   "money" : 0,
-  "league" : "L1"
+  "league" : "L1",
+  "club_name" : "realmadrid"
+},
+{
+  "_id" : ObjectId("5477d10ee41884177447b55e"),
+  "uptime" : "2014-11-26",
+  "name" : "Chelsea FC",
+  "money" : 0,
+  "league" : "L1",
+  "club_name" : "chelseafc"
+},
+{
+  "_id" : ObjectId("5477d133e41884177447b560"),
+  "uptime" : "2014-11-26",
+  "name" : "Arsenal FC",
+  "money" : 0,
+  "league" : "L1",
+  "club_name" : "arsenalfc"
 }
