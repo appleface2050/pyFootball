@@ -18,3 +18,9 @@ class MGClub(MGModel):
 
     def get_all_club_data(self):
         return self.mgr().find_all()
+
+
+if __name__ == '__main__':
+    res = MGClub.mgr().find_all()
+    for i in res:
+        print i
